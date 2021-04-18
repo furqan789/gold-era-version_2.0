@@ -1,5 +1,4 @@
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'GoldpriceModel.dart';
 
@@ -44,56 +43,77 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-Map<String,dynamic> currentPrice;
-List test;
+  Map<String, dynamic> currentPrice;
+  List test;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: () async {
-               test = await GoldpriceModel().getGoldPriceData();
-              print(test.toString());
-              },
-            child: Text('From csv'),
+            Expanded(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: () async {
+                  test = await GoldpriceModel().getGoldPriceData();
+                  print("Done");
+                },
+                child: Text('From csv'),
+              ),
             ),
-            ElevatedButton(onPressed: () async {
-              await GoldpriceModel().getLatestPrices();
-
-            },
-              child: Text('From api'),
+            Expanded(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await GoldpriceModel().getLatestPrices();
+                },
+                child: Text('From api'),
+              ),
             ),
-            ElevatedButton(onPressed: () {
-              var ind = GoldpriceModel().linearRegression(test[1],test[0] , DateTime(2021,4,2));
-              print(ind);
-            },
-              child: Text('linear regress'),
-            )
+            Expanded(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: () {
+                  var ind = GoldpriceModel()
+                      .linearRegression(test[1], test[0], DateTime(2021, 4, 2));
+                  print(ind);
+                },
+                child: Text('linear regress'),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: () {
+                  GoldpriceModel().dataSorting(test[2]);
+                },
+                child: Text('Test'),
+              ),
+            ),
+            test!=null?Expanded(
+              flex: 10,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.brown.withOpacity(0.4)
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(30.0),
+                    child: GoldpriceModel()
+                        .linearGraph(test[0], test[1], test[0].length),
+                  ),
+                ),
+              ),
+            ) : Text('Data not loaded'),
           ],
         ),
       ),
