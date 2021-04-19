@@ -40,15 +40,27 @@ class GoldpriceModel {
     return LineChart(
 
       LineChartData(
+        borderData: FlBorderData(
+          show: true,
+
+        ),
         minX: 0,
         maxX: 5000,
         minY: 0,
         maxY: 6000,
+        gridData: FlGridData(
+          show: false,
+          drawVerticalLine: false
+        ),
         titlesData: FlTitlesData(
-          show: false
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: false
+          )
         ),
         lineBarsData: [
           LineChartBarData(
+            isCurved: true,
             spots: spots,
             dotData: FlDotData(show: false),
             colors: [
@@ -109,7 +121,7 @@ class GoldpriceModel {
   }
 
 
-  Future<void> getLatestPrices() async {
+  Future<Map<String,dynamic>> getLatestPrices() async {
     try {
       var response = await http.get(
         Uri.tryParse("https://www.goldapi.io/api/XAU/INR"),
@@ -138,10 +150,7 @@ class GoldpriceModel {
 
       int priceOf22kGold = (priceOfGoldToday * pureToStandard).round();
 
-      print("Price of 24k today : " +
-          priceOfGoldToday.toString() +
-          "\n Price of 22k today:" +
-          priceOf22kGold.round().toString());
+      return map;
 //{"timestamp":1617261207,"metal":"XAU","currency":"INR","exchange":"IDC","symbol":"FX_IDC:XAUINR","prev_close_price":124922,"open_price":124961.6,"low_price":124961.6,"high_price":126061.8,"open_time":1617228000,"price":126025.6,"ch":1103.6,"chp":0.88,"ask":126035.6,"bid":126025.6}
     } catch (e) {
       print(e);
