@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773993530896",
+    "project_id": "gold-price-predictor",
+    "storage_bucket": "gold-price-predictor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773993530896:android:765ec8071088d2844c6c95",
+        "android_client_info": {
+          "package_name": "com.rctne.gold_price_predictor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773993530896-iqp614jk8s67dpee6sf9sjm9nlfe5d24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIkubY_Ssmp7b6fDa51IFHjh4f8PLsEUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773993530896-iqp614jk8s67dpee6sf9sjm9nlfe5d24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
