@@ -79,15 +79,36 @@ class GoldpriceModel {
     );
   }
 
-  int errorCalculation(List<int> prices, int a, int b) {
-    List<int> predicted = [];
-    final length = prices.length;
-    for (int i = 0, j = 1; i < length; i++) {
-      predicted.add(b * j + a);
-    }
+  double getRingPrice(double price,int weight){
+    final gst = 3;
+    final makingCharges = 10;
+
+    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
+
+  }
+  double getChainPrice(double price,int weight){
+    final gst = 3;
+    final makingCharges = 10;
+
+    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
+
+  }
+  double getCoinPrice(double price,int weight){
+    final gst = 3;
+    final makingCharges = 2;
+
+    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
+
+  }
+  double getEarringPrice(double price,int weight){
+    final gst = 3;
+    final makingCharges = 10;
+
+    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
+
   }
 
-  int linearRegression(List<double> prices, List<int> serialNo, DateTime date) {
+  String linearRegression(List<double> prices, List<int> serialNo, DateTime date) {
     //initialization
     final int length = prices.length;
     int index = date.difference(startDate).inDays;
@@ -102,10 +123,9 @@ class GoldpriceModel {
 
     double b = (length * sumXY - sumX * sumY) / (length * sumX2 - sumX * sumX);
     double a = (sumY - b * sumX) / length;
-    print("a is" + a.toString());
-    print("b is" + b.toString());
+
     // a is the y intercept b is x coordinate
-    return (a + b * index).round();
+    return (a + b * index).toStringAsPrecision(6);
     //alternative algorithm
   }
 
