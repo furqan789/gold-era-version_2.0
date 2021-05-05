@@ -119,7 +119,7 @@ class GoldpriceModel {
       sumX += serialNo[i];
       sumXY += prices[i] * serialNo[i];
       sumX2 += serialNo[i] * serialNo[i];
-    }
+    } // yoo
 
     double b = (length * sumXY - sumX * sumY) / (length * sumX2 - sumX * sumX);
     double a = (sumY - b * sumX) / length;
