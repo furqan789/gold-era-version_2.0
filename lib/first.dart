@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'GoldpriceModel.dart';
 import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FirstPage extends StatefulWidget {
   @override
@@ -12,12 +13,23 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+
   Map<String, dynamic> latest_prices;
   FirebaseAuth _firebaseAuth;
   List<dynamic> goldPriceData;
   DateTime today;
   final double conversion_factor = 28.35;
+  final url = "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
 
+  Future launchURLInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: true,
+        forceWebView: true,
+      );
+    }
+  }
   @override
   void initState() {
     _firebaseAuth = FirebaseAuth.instance;
@@ -90,20 +102,25 @@ class _FirstPageState extends State<FirstPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "PlayfairDisplay",
-                                fontSize: 21,
+                                fontSize: 19,
                                 color: Color(0xffac5317),
                               ),
                             ),
                             SizedBox(
                               width: 1,
                             ),
-                            Text(
-                              'See all',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "PlayfairDisplay",
-                                fontSize: 21,
-                                color: Color(0xffac5317),
+                            GestureDetector(
+                              onTap: ()async {
+                                await launchURLInBrowser(url);
+                              },
+                              child: Text(
+                                'See all',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "PlayfairDisplay",
+                                  fontSize: 19,
+                                  color: Color(0xffac5317),
+                                ),
                               ),
                             )
                           ],
@@ -221,7 +238,7 @@ class _FirstPageState extends State<FirstPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 30, right: 30, top: 25, bottom: 30),
+                                  left: 25, right: 25, top: 20, bottom: 20),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(35),
@@ -236,7 +253,7 @@ class _FirstPageState extends State<FirstPage> {
                                   ),
                                 ),
                                 width: double.infinity,
-                                height: 130,
+                                height: 120,
                                 child: Column(children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -250,7 +267,7 @@ class _FirstPageState extends State<FirstPage> {
                                           fontFamily: "PlayfairDisplay",
                                         ),
                                       ),
-                                      SizedBox(width: 80),
+                                      SizedBox(width: 75),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,

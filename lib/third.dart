@@ -207,7 +207,7 @@ class _ThirdPageState extends State<ThirdPage> {
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage('assets/coins.jpg'),
+                                    image: NetworkImage('https://www.sawansukha.com/wp-content/uploads/2020/04/8gm-coin-1.png'),
                                     fit: BoxFit.cover,
                                   ),
                                   border: Border.all(

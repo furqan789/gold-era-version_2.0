@@ -45,7 +45,7 @@ class GoldpriceModel {
 
         ),
         minX: 0,
-        maxX: 5000,
+        maxX: 5165,
         minY: 0,
         maxY: 6000,
         gridData: FlGridData(
@@ -123,9 +123,11 @@ class GoldpriceModel {
 
     double b = (length * sumXY - sumX * sumY) / (length * sumX2 - sumX * sumX);
     double a = (sumY - b * sumX) / length;
-
-    // a is the y intercept b is x coordinate
+    print(a);
+    print(b);
+    // a is the y intercept b is slope
     return (a + b * index).toStringAsPrecision(6);
+
     //alternative algorithm
   }
 
