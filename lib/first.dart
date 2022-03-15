@@ -13,13 +13,13 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-
   Map<String, dynamic> latest_prices;
   FirebaseAuth _firebaseAuth;
   List<dynamic> goldPriceData;
   DateTime today;
   final double conversion_factor = 28.35;
-  final url = "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
+  final url =
+      "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
 
   Future launchURLInBrowser(String url) async {
     if (await canLaunch(url)) {
@@ -30,15 +30,13 @@ class _FirstPageState extends State<FirstPage> {
       );
     }
   }
+
   @override
   void initState() {
     _firebaseAuth = FirebaseAuth.instance;
     setState(() {
-
-
       today = DateTime.now();
     });
-
 
     super.initState();
   }
@@ -110,7 +108,7 @@ class _FirstPageState extends State<FirstPage> {
                               width: 1,
                             ),
                             GestureDetector(
-                              onTap: ()async {
+                              onTap: () async {
                                 await launchURLInBrowser(url);
                               },
                               child: Text(
@@ -258,13 +256,18 @@ class _FirstPageState extends State<FirstPage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        'Gold Price',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xCD872309),
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "PlayfairDisplay",
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, 'Cart');
+                                        },
+                                        child: Text(
+                                          'Gold Price',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xCD872309),
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "PlayfairDisplay",
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 75),

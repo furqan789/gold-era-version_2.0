@@ -6,7 +6,6 @@ import 'GoldpriceModel.dart';
 import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -14,9 +13,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FirebaseAuth _firebaseAuth;
-  String _email,_password;
-  bool showPassword = true,isLoaded = false;
-
+  String _email, _password;
+  bool showPassword = true, isLoaded = false;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -27,16 +25,15 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-
           backgroundColor: Color(0xfffcf6ba).withOpacity(0.7),
           title: Padding(
-
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: Text(
                 title,
                 style: TextStyle(
-                    fontFamily: 'QuickSand', fontWeight: FontWeight.bold,
+                    fontFamily: 'QuickSand',
+                    fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
             ),
@@ -49,31 +46,31 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
                 style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent)
-                ),
-                child: Text(buttonText,
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent)),
+                child: Text(
+                  buttonText,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                  ),), onPressed: function),
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                onPressed: function),
           ],
         );
       },
     );
   }
 
-  bool formSubmission(){
-    try{if(_formkey.currentState.validate()){
-      _formkey.currentState.save();
-      return true;
-
-    }
-    else{
+  bool formSubmission() {
+    try {
+      if (_formkey.currentState.validate()) {
+        _formkey.currentState.save();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       return false;
-    }} catch(e){
-      return false;
     }
-
   }
 
   @override
@@ -81,7 +78,6 @@ class _LoginPageState extends State<LoginPage> {
     _firebaseAuth = FirebaseAuth.instance;
 
     return Scaffold(
-
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         elevation: 0,
@@ -164,19 +160,17 @@ class _LoginPageState extends State<LoginPage> {
                           child: Column(
                             children: [
                               TextFormField(
-                                validator: (value){
-                                  if(value==null || value == ""){
+                                validator: (value) {
+                                  if (value == null || value == "") {
                                     return "Please do not leave this field blank";
-                                  }
-                                  else if(!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  } else if (!RegExp(
+                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(value)) {
                                     return "Please enter a valid email address";
-
                                   }
                                   return null;
                                 },
-                                onSaved: (value){
+                                onSaved: (value) {
                                   _email = value;
                                 },
                                 decoration: InputDecoration(
@@ -185,32 +179,29 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Colors.black,
                                   )),
                                   labelText: 'Enter your email',
-
-
                                 ),
                               ),
                               SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                validator: (value){
-                                  if(value==null || value == ""){
+                                validator: (value) {
+                                  if (value == null || value == "") {
                                     return "Please don't leave this field empty";
+                                  } else if (!RegExp(
+                                          r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
+                                      .hasMatch(value)) {
+                                    return "Please enter a valid password!";
                                   }
-                                  else if(!RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})").hasMatch(value))
-                                  {
-
-                                    return "Please enter a valid password!";}
                                   return null;
                                 },
-                                onSaved: (value){
-                                  value!=null ? _password = value : null;
+                                onSaved: (value) {
+                                  value != null ? _password = value : null;
                                 },
                                 obscureText: showPassword,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Password'
-                                ),
+                                    labelText: 'Password'),
                               ),
                               SizedBox(
                                 height: 50,
@@ -229,42 +220,57 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 60,
                                   minWidth: double.infinity,
                                   onPressed: () async {
-                                      if(formSubmission()){
-                                       try{
-                                            setState(() {
-                                              isLoaded = true;
+                                    if (formSubmission()) {
+                                      try {
+                                        setState(() {
+                                          isLoaded = true;
+                                        });
+                                        var auth = await _firebaseAuth
+                                            .signInWithEmailAndPassword(
+                                                email: _email,
+                                                password: _password);
+
+                                        if (auth != null) {
+                                          await GoldpriceModel()
+                                              .getLatestPrices()
+                                              .then((value) {
+                                            Provider.of<GoldInfo>(context,
+                                                    listen: false)
+                                                .getLatestData(value);
+                                          }).then((value) async {
+                                            await GoldpriceModel()
+                                                .getGoldPriceData()
+                                                .then((value) {
+                                              Provider.of<GoldInfo>(context,
+                                                      listen: false)
+                                                  .getGoldData(value);
                                             });
-                                         var auth = await _firebaseAuth.signInWithEmailAndPassword(email: _email, password: _password);
+                                          });
+                                          setState(() {
+                                            isLoaded = false;
+                                          });
 
-                                         if(auth !=null){
-                                          await GoldpriceModel().getLatestPrices().then((value) {
-
-                                             Provider.of<GoldInfo>(context,listen: false).getLatestData(value);
-
-                                           }).then((value)async  {
-                                             await GoldpriceModel().getGoldPriceData().then((value) {
-
-                                               Provider.of<GoldInfo>(context,listen: false).getGoldData(value);
-
-                                             });
-                                           });
-                                           setState(() {
-                                             isLoaded = false;
-                                           });
-
-                                           Navigator.pushNamedAndRemoveUntil(context, 'Bottom', (route) => false);
-                                         }
-                                       }catch(e){
-                                         setState(() {
-                                           isLoaded = false;
-                                         });
-                                         print(e);
-                                         await _showMyDialog("Error!", "Some error occurred while signing in. Please  check your email and password and try again", "Ok", (){Navigator.of(context, rootNavigator: true).pop();});
-                                       }
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              'Bottom',
+                                              (route) => false);
+                                        }
+                                      } catch (e) {
+                                        setState(() {
+                                          isLoaded = false;
+                                        });
+                                        print(e);
+                                        await _showMyDialog(
+                                            "Error!",
+                                            "Some error occurred while signing in. Please  check your email and password and try again",
+                                            "Ok", () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                        });
                                       }
-
-
-                                    },
+                                    }
+                                  },
                                   elevation: 0,
                                   color: Color(0xFFA97829),
                                   shape: RoundedRectangleBorder(
@@ -285,11 +291,11 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: GestureDetector(
-                                    onTap:(){
+                                    onTap: () {
                                       setState(() {
                                         showPassword = false;
                                       });
-                                    } ,
+                                    },
                                     child: Text('Show password')),
                               ),
                               Row(
@@ -299,7 +305,7 @@ class _LoginPageState extends State<LoginPage> {
                                     "Don't have an account?",
                                   ),
                                   GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Navigator.pushNamed(context, 'Sign Up');
                                     },
                                     child: Text(

@@ -11,303 +11,292 @@ class ThirdPage extends StatefulWidget {
 }
 
 class _ThirdPageState extends State<ThirdPage> {
-  double currentOrnamentPrice,estimatedOrnamentPrice;
+  double currentOrnamentPrice, estimatedOrnamentPrice;
   @override
-
   Widget build(BuildContext context) {
-    Map<String,dynamic> latest_prices = Provider.of<GoldInfo>(context).setLatestData();
+    Map<String, dynamic> latest_prices =
+        Provider.of<GoldInfo>(context).setLatestData();
     final double conversion_factor = 28.35;
 
-
-
     return Container(
-      color: Color(0xffe7b875),
-
+      decoration: BoxDecoration(
+        color: Color(0xffF8F8F8),
+      ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Categories',
+            style: TextStyle(
+                color: Color(0xff505050),
+                fontWeight: FontWeight.bold,
+                fontSize: 23),
+          ),
+          elevation: 0,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.only(top:24.0,left: 3,right: 3),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft: Radius.circular(50),),
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.white.withOpacity(0.3),
-                          Colors.white.withOpacity(0.20),
-                        ],
-                        stops: [0.0,1.0]
-                    ),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.8),
-                      width: 2.5,
-                    )
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
                 ),
-                width: double.infinity,
-
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Column(
-                      children: [
-
-                        Padding(
-                          padding: const EdgeInsets.only(top:30.0),
-                          child: Text(
-                            'Categories',
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 115,
+                        height: 110,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xffEBEBEB),
+                        ),
+                        child: Positioned(
+                          child: Image.asset('assets/images/ringgs.png',
+                              scale: 3.0),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Rings',
                             style: TextStyle(
-                              fontSize: 28,
-                              fontFamily: "PlayfairDisplay",
-                              color: Color(0xCD2B201F),
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1,
-                            ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050)),
                           ),
-                        ),
-                        Padding(
-                          padding:EdgeInsets.symmetric(horizontal:0.0,vertical:12),
-                          child:Container(
-                            height:1.0,
-                            width:230.0,
-                            color: Color(0xCD872309),
+                          SizedBox(
+                            height: 12,
                           ),
-                        ),
-                        SizedBox(height: 40,),
-                        currentOrnamentPrice!=null?Text(
-                          'Current Price : \u{20B9} $currentOrnamentPrice for 10g of 24k',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: "PlayfairDisplay",
-                            color: Color(0xCD872309),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ) : SizedBox(),
-                        SizedBox(height: 20,),
-                        estimatedOrnamentPrice!=null?Text(
-                          'Estimated Price : \u{20B9} $estimatedOrnamentPrice for 10g of 24k',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: "PlayfairDisplay",
-                            color: Color(0xCD872309),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ) : SizedBox()
-                      ],
-                    ),
-                    SizedBox(height: 50,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage('https://images.melorra.com/image/upload/fl_progressive,f_auto,q_auto/v1595527022/live-melorra/dev/catalogue/images/C2/OPT/580/C16CC201C_P_580.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.4)
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xFF747373),
-                                    offset: const Offset(7,13),
-                                    spreadRadius: -4,
-                                    blurRadius: 12,
-                                  )
-                                ]
-                              ),
-                              height: 170,
-                              width: 155,
-                              child: MaterialButton(
-                                onPressed: (){
-                                  double estimatedPrice = Provider.of<GoldInfo>(context,listen: false).setEstimatedPrice();
-                                  int weight = 10;
-                                  setState(() {
-
-                                    currentOrnamentPrice = GoldpriceModel().getChainPrice(double.parse(latest_prices["price"])/conversion_factor, weight).toInt().toDouble();
-                                  });
-                                  if(estimatedPrice!=null){
-                                    setState(() {
-                                      estimatedOrnamentPrice = GoldpriceModel().getChainPrice(estimatedPrice, weight).toInt().toDouble();
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'CHAIN',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: "PlayfairDisplay",
-                                    color: Color(0xE13D3B3B),
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage('https://i.pinimg.com/originals/4f/3e/32/4f3e3259e700ee04288e98dd059003d4.jpg'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  border: Border.all(
-                                      color: Colors.white.withOpacity(0.4)
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFF747373),
-                                      offset: const Offset(7,13),
-                                      spreadRadius: -4,
-                                      blurRadius: 12,
-                                    )
-                                  ]
-                              ),
-                              height: 170,
-                              width: 155,
-                              child: MaterialButton(
-                                onPressed: (){
-                                  double estimatedPrice = Provider.of<GoldInfo>(context,listen: false).setEstimatedPrice();
-                                  int weight = 10;
-                                  setState(() {
-
-                                    currentOrnamentPrice = GoldpriceModel().getRingPrice(double.parse(latest_prices["price"])/conversion_factor, 10).toInt().toDouble();
-                                  });
-                                  if(estimatedPrice!=null){
-                                    setState(() {
-                                      estimatedOrnamentPrice = GoldpriceModel().getRingPrice(estimatedPrice, weight).toInt().toDouble();
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'RING',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontFamily: "PlayfairDisplay",
-                                      color: Color(0xE13D3B3B),
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                        SizedBox(height: 85,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage('https://www.sawansukha.com/wp-content/uploads/2020/04/8gm-coin-1.png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  border: Border.all(
-                                      color: Colors.white.withOpacity(0.4)
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFF747373),
-                                      offset: const Offset(7,13),
-                                      spreadRadius: -4,
-                                      blurRadius: 12,
-                                    )
-                                  ]
-                              ),
-                              height: 170,
-                              width: 155,
-                              child: MaterialButton(
-                                onPressed: (){
-                                  double estimatedPrice = Provider.of<GoldInfo>(context,listen: false).setEstimatedPrice();
-                                  int weight = 10;
-                                  setState(() {
-
-                                    currentOrnamentPrice = GoldpriceModel().getCoinPrice(double.parse(latest_prices["price"])/conversion_factor, weight).toInt().toDouble();
-                                  });
-                                  if(estimatedPrice!=null){
-                                    setState(() {
-                                      estimatedOrnamentPrice = GoldpriceModel().getCoinPrice(estimatedPrice, weight).toInt().toDouble();
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'COINS',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontFamily: "PlayfairDisplay",
-                                      color: Color(0xE13D3B3B),
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage('https://staticimg.titan.co.in/Tanishq/Catalog/512219SOKABA00_2.jpg?impolicy=pqmed&imwidth=640'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  border: Border.all(
-                                      color: Colors.white.withOpacity(0.4)
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFF747373),
-                                      offset: const Offset(7,13),
-                                      spreadRadius: -4,
-                                      blurRadius: 12,
-                                    )
-                                  ]
-                              ),
-                              height: 170,
-                              width: 155,
-                              child: MaterialButton(
-                                onPressed: (){
-                                  double estimatedPrice = Provider.of<GoldInfo>(context,listen: false).setEstimatedPrice();
-                                  int weight = 10;
-                                  setState(() {
-
-                                    currentOrnamentPrice = GoldpriceModel().getEarringPrice(double.parse(latest_prices["price"])/conversion_factor, weight).toInt().toDouble();
-                                  });
-                                  if(estimatedPrice!=null){
-                                    setState(() {
-                                      estimatedOrnamentPrice = GoldpriceModel().getEarringPrice(estimatedPrice, weight).toInt().toDouble();
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'EARRINGS',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontFamily: "PlayfairDisplay",
-                                      color: Color(0xE13D3B3B),
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                        SizedBox(height: 50,),
-                      ],
-                    )
-
-
-
-
-                  ],
-
+                          Text(
+                            '2 items',
+                            style: TextStyle(
+                                color: Color(0xff505050).withOpacity(.6)),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_right,
+                          size: 35, color: Color(0xff2E3A59)),
+                    ],
+                  ),
                 ),
-              ),
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 115,
+                        height: 110,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xffEBEBEB),
+                        ),
+                        child: Positioned(
+                          child: Image.asset('assets/images/chain.png',
+                              scale: 3.0),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Chains',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050)),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            '2 items',
+                            style: TextStyle(
+                                color: Color(0xff505050).withOpacity(.6)),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_right,
+                          size: 35, color: Color(0xff2E3A59)),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 115,
+                        height: 110,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xffEBEBEB),
+                        ),
+                        child: Positioned(
+                          child: Image.asset('assets/images/earings.png',
+                              scale: 3.0),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Earrings',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050)),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            '2 items',
+                            style: TextStyle(
+                                color: Color(0xff505050).withOpacity(.6)),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_right,
+                          size: 35, color: Color(0xff2E3A59)),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 115,
+                        height: 110,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xffEBEBEB),
+                        ),
+                        child: Positioned(
+                          child:
+                              Image.asset('assets/images/coin.png', scale: 3.0),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Coins',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050)),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            '2 items',
+                            style: TextStyle(
+                                color: Color(0xff505050).withOpacity(.6)),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_right,
+                          size: 35, color: Color(0xff2E3A59)),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 115,
+                        height: 110,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xffEBEBEB),
+                        ),
+                        child: Positioned(
+                          child: Image.asset(
+                            'assets/images/biscuitss.png',
+                            scale: 0.01,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Biscuits',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050)),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            '2 items',
+                            style: TextStyle(
+                                color: Color(0xff505050).withOpacity(.6)),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_right,
+                          size: 35, color: Color(0xff2E3A59)),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1.5,
+                  color: Color(0xff505050).withOpacity(0.3),
+                ),
+              ],
             ),
           ),
         ),

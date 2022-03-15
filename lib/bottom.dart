@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gold_price_predictor/Cart.dart';
 import 'package:gold_price_predictor/first.dart';
 import 'package:gold_price_predictor/second.dart';
 import 'package:gold_price_predictor/third.dart';
+import 'Cart.dart';
 
 class Bottom extends StatefulWidget {
   @override
@@ -9,7 +11,7 @@ class Bottom extends StatefulWidget {
 }
 
 class _BottomState extends State<Bottom> {
-  int _currentIndex=0;
+  int _currentIndex = 0;
   final tabs = <Widget>[
     FirstPage(),
     SecondPage(),
@@ -27,25 +29,24 @@ class _BottomState extends State<Bottom> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            label:'Home',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.trending_up_sharp),
-            label:'Trending',
+            label: 'Trending',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_outlined),
-            label:'Categories',
+            label: 'Categories',
           ),
         ],
-        onTap:(index){
-          _currentIndex=index;
+        onTap: (index) {
+          _currentIndex = index;
           setState(() {
-            _currentIndex =index;
+            _currentIndex = index;
           });
         },
       ),
-
     );
   }
 }

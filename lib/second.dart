@@ -9,12 +9,13 @@ class SecondPage extends StatefulWidget {
   @override
   _SecondPageState createState() => _SecondPageState();
 }
+
 DateTime selectedDate;
 String estimatedPrice;
+
 class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
-
     List<dynamic> goldData = Provider.of<GoldInfo>(context).setGoldData();
     Map<String, dynamic> latestData =
         Provider.of<GoldInfo>(context).setLatestData();
@@ -116,25 +117,26 @@ class _SecondPageState extends State<SecondPage> {
                         width: double.infinity,
                         child: MaterialButton(
                           onPressed: () async {
-                           var value =  await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2022, 1, 1));
+                            var value = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate:
+                                    DateTime.now().add(Duration(days: 100)));
 
-                                  setState(() {
-                                    if(value!=null){
-
-                                      selectedDate = value;
-                                      estimatedPrice = GoldpriceModel().linearRegression(goldData[1], goldData[0], selectedDate);
-                                    }
-                                    Provider.of<GoldInfo>(context,listen: false).getEstimatedPrice(double.parse(estimatedPrice));
-                                    Provider.of<GoldInfo>(context,listen: false).getSelectedDate(selectedDate);
-
-
+                            setState(() {
+                              if (value != null) {
+                                selectedDate = value;
+                                estimatedPrice = GoldpriceModel()
+                                    .linearRegression(
+                                        goldData[1], goldData[0], selectedDate);
+                              }
+                              Provider.of<GoldInfo>(context, listen: false)
+                                  .getEstimatedPrice(
+                                      double.parse(estimatedPrice));
+                              Provider.of<GoldInfo>(context, listen: false)
+                                  .getSelectedDate(selectedDate);
                             });
-
-
                           },
                           child: Text(
                             'CHOOSE DATE',
@@ -147,40 +149,50 @@ class _SecondPageState extends State<SecondPage> {
                         ),
                       ),
                     ),
-                    selectedDate!=null && estimatedPrice!=null? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        Text(
-                          'On ' + selectedDate.day.toString() + "/" + selectedDate.month.toString() + "/" + selectedDate.year.toString(),
-                          style: TextStyle(
-                            fontFamily: "PlayfairDisplay",
-                            color: Color(0xCD872309),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                    selectedDate != null && estimatedPrice != null
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'On ' +
+                                    selectedDate.day.toString() +
+                                    "/" +
+                                    selectedDate.month.toString() +
+                                    "/" +
+                                    selectedDate.year.toString(),
+                                style: TextStyle(
+                                  fontFamily: "PlayfairDisplay",
+                                  color: Color(0xCD872309),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                'Estimated Price : \u{20B9} ${estimatedPrice} /gm',
+                                style: TextStyle(
+                                  fontFamily: "PlayfairDisplay",
+                                  color: Color(0xCD872309),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          )
+                        : Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
+                              'Please select a date to make a prediction for that day.',
+                              style: TextStyle(
+                                fontFamily: "PlayfairDisplay",
+                                color: Color(0xCD872309),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ) ,
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Estimated Price : \u{20B9} $estimatedPrice /gm',
-                          style: TextStyle(
-                            fontFamily: "PlayfairDisplay",
-                            color: Color(0xCD872309),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                    ) : Padding(padding: EdgeInsets.all(15.0),
-                    child: Text('Please select a date to make a prediction for that day.',
-                    style: TextStyle(
-                      fontFamily: "PlayfairDisplay",
-                      color: Color(0xCD872309),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),),),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 12, right: 12, top: 50, bottom: 50),
@@ -188,9 +200,7 @@ class _SecondPageState extends State<SecondPage> {
                         child: Padding(
                           padding: EdgeInsets.all(15.0),
                           child: GoldpriceModel().linearGraph(
-                              goldData[0],
-                              goldData[1],
-                              goldData[0].length),
+                              goldData[0], goldData[1], goldData[0].length),
                         ),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
+
 class GoldpriceModel {
   Map<String, dynamic> latestPrice;
   List<double> csvData = [];
@@ -24,91 +25,77 @@ class GoldpriceModel {
 
       temp.add(element[0]);
 
-      csvData.add(element[1].toDouble()); //Y-axis
+//      csvData.add(double.parse(element[1]));
+      csvData.add(element[1].toDouble());
+
+      //Y-axis
       serialNo.add(i); //X-axis
     });
 
     return [serialNo, csvData, temp];
     // the time stamp is in mm-dd-yyyy format
   }
-  Widget linearGraph(List<int> x,List<double> y,int n){
+
+  Widget linearGraph(List<int> x, List<double> y, int n) {
     List<FlSpot> spots = [];
-    for(int i = 0;i<n;i++){
-
-      spots.add(FlSpot(x[i].toDouble(),y[i]));
+    for (int i = 0; i < n; i++) {
+      spots.add(FlSpot(x[i].toDouble(), y[i]));
     }
-    return LineChart(
-
-      LineChartData(
+    return LineChart(LineChartData(
         borderData: FlBorderData(
           show: true,
-
         ),
         minX: 0,
-        maxX: 5165,
+        maxX: 13450,
         minY: 0,
-        maxY: 6000,
-        gridData: FlGridData(
-          show: false,
-          drawVerticalLine: false
-        ),
+        maxY: 2500,
+        gridData: FlGridData(show: false, drawVerticalLine: false),
         titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: SideTitles(
-            showTitles: false
-          )
-        ),
+            show: true, bottomTitles: SideTitles(showTitles: false)),
         lineBarsData: [
           LineChartBarData(
             isCurved: true,
             spots: spots,
             dotData: FlDotData(show: false),
-            colors: [
-              Colors.red,
-              Color(0xFFC89149)
-              
-            ],
-
-
-
+            colors: [Colors.red, Color(0xFFC89149)],
           ),
-
-        ]
-
-      )
-    );
+        ]));
   }
 
-  double getRingPrice(double price,int weight){
+  double getRingPrice(double price, int weight) {
     final gst = 3;
     final makingCharges = 10;
 
-    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
-
+    return (price + price * (gst / 100) + price * (makingCharges / 100)) *
+        weight;
   }
-  double getChainPrice(double price,int weight){
+
+  double getChainPrice(double price, int weight) {
     final gst = 3;
     final makingCharges = 10;
 
-    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
-
+    return (price + price * (gst / 100) + price * (makingCharges / 100)) *
+        weight;
   }
-  double getCoinPrice(double price,int weight){
+
+  double getCoinPrice(double price, int weight) {
     final gst = 3;
     final makingCharges = 2;
 
-    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
-
+    return (price + price * (gst / 100) + price * (makingCharges / 100)) *
+        weight;
   }
-  double getEarringPrice(double price,int weight){
+
+  double getEarringPrice(double price, int weight) {
     final gst = 3;
     final makingCharges = 10;
 
-    return (price + price * (gst/100) + price*(makingCharges/100))*weight;
-
+    return (price + price * (gst / 100) + price * (makingCharges / 100)) *
+        weight;
   }
 
-  String linearRegression(List<double> prices, List<int> serialNo, DateTime date) {
+  String linearRegression(
+      List<double> prices, List<int> serialNo, DateTime date) {
     //initialization
     final int length = prices.length;
     int index = date.difference(startDate).inDays;
@@ -123,10 +110,9 @@ class GoldpriceModel {
 
     double b = (length * sumXY - sumX * sumY) / (length * sumX2 - sumX * sumX);
     double a = (sumY - b * sumX) / length;
-    print(a);
-    print(b);
+
     // a is the y intercept b is slope
-    return (a + b * index).toStringAsPrecision(6);
+    return ((a + b * index) * 10).toStringAsPrecision(6);
 
     //alternative algorithm
   }
@@ -137,13 +123,10 @@ class GoldpriceModel {
       dates.add(element.split("-"));
     });
 
-    dates.forEach((element) {
-      
-    });
+    dates.forEach((element) {});
   }
 
-
-  Future<Map<String,dynamic>> getLatestPrices() async {
+  Future<Map<String, dynamic>> getLatestPrices() async {
     try {
       var response = await http.get(
         Uri.tryParse("https://www.goldapi.io/api/XAU/INR"),
