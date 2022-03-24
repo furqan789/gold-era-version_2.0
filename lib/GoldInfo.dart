@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class GoldInfo extends ChangeNotifier {
   Map<String, dynamic> latestNews;
+  Map<String, dynamic> latestNewsSilver;
   List<dynamic> goldPriceData;
   double estimatedPrice;
   DateTime selectedDate;
   List<Map<String, dynamic>> shoppingCart;
+
 
   void getEstimatedPrice(double kimat) {
     estimatedPrice = kimat;
@@ -29,17 +31,27 @@ class GoldInfo extends ChangeNotifier {
     latestNews = taajaKhabar;
   }
 
+  void getLatestDataSilver(Map<String, dynamic> taajaKhabar) {
+    latestNewsSilver = taajaKhabar;
+  }
   Map<String, dynamic> setLatestData() {
     return latestNews;
+  }
+
+  Map<String, dynamic> setLatestDataSilver() {
+    return latestNewsSilver;
   }
 
   void getGoldData(List<dynamic> data) {
     goldPriceData = data;
   }
 
+
+
   List<dynamic> setGoldData() {
     return goldPriceData;
   }
+
 
   void addItemInCart(Map<String, dynamic> item) {
     if (shoppingCart == null) {

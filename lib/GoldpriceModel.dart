@@ -94,12 +94,17 @@ class GoldpriceModel {
         weight;
   }
 
-  String linearRegression(
-      List<double> prices, List<int> serialNo, DateTime date) {
+  String linearRegression(List<double> prices, List<int> serialNo,
+      DateTime date) {
     //initialization
     final int length = prices.length;
-    int index = date.difference(startDate).inDays;
-    double sumX = 0, sumY = 0, sumX2 = 0, sumXY = 0;
+    int index = date
+        .difference(startDate)
+        .inDays;
+    double sumX = 0,
+        sumY = 0,
+        sumX2 = 0,
+        sumXY = 0;
 
     for (i = 0; i < length; i++) {
       sumY += prices[i];
@@ -145,7 +150,9 @@ class GoldpriceModel {
       temp.forEach((element) {
         element[0] = element[0].toString().substring(
             1,
-            element[0].toString().length -
+            element[0]
+                .toString()
+                .length -
                 1); // get rid of the extra double quotes
         map.addAll({element[0]: element[1]});
       });
@@ -153,7 +160,6 @@ class GoldpriceModel {
       int priceOfGoldToday = (double.parse(map["price"]) / 28.35)
           .round(); //This is per gram price of gold today(on that day)
 
-      int priceOf22kGold = (priceOfGoldToday * pureToStandard).round();
 
       return map;
 //{"timestamp":1617261207,"metal":"XAU","currency":"INR","exchange":"IDC","symbol":"FX_IDC:XAUINR","prev_close_price":124922,"open_price":124961.6,"low_price":124961.6,"high_price":126061.8,"open_time":1617228000,"price":126025.6,"ch":1103.6,"chp":0.88,"ask":126035.6,"bid":126025.6}
@@ -161,4 +167,42 @@ class GoldpriceModel {
       print(e);
     }
   }
+
+  Future<Map<String, dynamic>> getLatestPricesSilver() async {
+    try {
+      var response = await http.get(
+        Uri.tryParse("https://www.goldapi.io/api/XAG/INR"),
+        headers: {"x-access-token": "goldapi-5rj59ukm3bs7cl-io"},
+      );
+
+      String data = response.body;
+
+      data = data.substring(1, data.length - 1); // get rid of curly braces
+      var list = data.split(",");
+      var temp = [];
+      list.forEach((element) {
+        temp.add(element.trim().split(":"));
+      });
+      Map<String, dynamic> map = {};
+      temp.forEach((element) {
+        element[0] = element[0].toString().substring(
+            1,
+            element[0]
+                .toString()
+                .length -
+                1); // get rid of the extra double quotes
+        map.addAll({element[0]: element[1]});
+      });
+
+      int priceOfGoldToday = (double.parse(map["price"]) / 28.35)
+          .round(); //This is per gram price of gold today(on that day)
+
+
+      return map;
+//{"timestamp":1617261207,"metal":"XAU","currency":"INR","exchange":"IDC","symbol":"FX_IDC:XAUINR","prev_close_price":124922,"open_price":124961.6,"low_price":124961.6,"high_price":126061.8,"open_time":1617228000,"price":126025.6,"ch":1103.6,"chp":0.88,"ask":126035.6,"bid":126025.6}
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }
