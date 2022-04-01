@@ -7,7 +7,9 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
         body:SafeArea(
             child: Container(
               decoration: BoxDecoration(

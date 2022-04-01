@@ -73,10 +73,15 @@ class _CartState extends State<Cart> {
                           SizedBox(
                             height: 12,
                           ),
-                          Text(
-                            'Gold | 7 gram',
-                            style: TextStyle(
-                                color: Colors.yellowAccent.withOpacity(.6)),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Gold',
+                              style:TextStyle(color: Color(0xfff3a922),letterSpacing: 1),
+                              children: <TextSpan>[
+
+                                TextSpan(text: ' | 7 gram',style: TextStyle(color: Color(0xff505050),)),
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -167,14 +172,14 @@ class _CartState extends State<Cart> {
                             'Total',
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
-                                      color: Colors.white.withOpacity(0.75),
+                                      color: Colors.white,
                                     ),
                           ),
                         ),
                         Text(
                           '₹ 5793',
                           style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.white.withOpacity(0.75),
+                                color: Colors.white,
                               ),
                         ),
                       ],

@@ -132,29 +132,29 @@ class _FirstPageState extends State<FirstPage> {
                         padding: const EdgeInsets.only(top: 25.0, bottom: 10),
                         child: Text('Live buy price',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               color: Color(0xffFFFFFF),
                             )),
                       ),
                       double.parse(latest_prices["price"])!=null?
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(4),
                           child: Text(
-                            "\u{20b9}" + (double.parse(latest_prices["price"])/conversion_factor).toStringAsPrecision(6)
+                            "\u{20b9}" + (double.parse(latest_prices["price"])/conversion_factor).toStringAsPrecision(6),style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w600)
                           ),
                       ):Text('uu'),
                       Padding(
-                        padding: const EdgeInsets.only(top: 25.0, bottom: 10),
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 10),
                         child: Text('Purity',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               color: Color(0xffFFFFFF),
                             )),
                       ),
                       Text(
                         '24 Karat',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: 19,
                           fontWeight: FontWeight.w600,
                           color: Color(0xffFFFFFF),
                         ),
@@ -196,29 +196,30 @@ class _FirstPageState extends State<FirstPage> {
                         padding: const EdgeInsets.only(top: 25.0, bottom: 10),
                         child: Text('Live buy price',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               color: Color(0xffFFFFFF),
                             )),
                       ),
-                      double.parse(latest_prices_Silver["price"])!=null?
+                      latest_prices_Silver!=null?
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(4),
+
                         child: Text(
-                            "\u{20b9}" + (double.parse(latest_prices_Silver["price"])/conversion_factor).toStringAsPrecision(6)
+                            "\u{20b9}" + (double.parse(latest_prices_Silver["price"])/conversion_factor).toStringAsPrecision(6),style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w600),
                         ),
                       ):Text('uu'),
                       Padding(
-                        padding: const EdgeInsets.only(top: 25.0, bottom: 10),
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 10),
                         child: Text('Purity',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               color: Color(0xffFFFFFF),
                             )),
                       ),
                       Text(
                         '925',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: 19,
                           fontWeight: FontWeight.w600,
                           color: Color(0xffFFFFFF),
                         ),
@@ -236,7 +237,7 @@ class _FirstPageState extends State<FirstPage> {
                 Text(
                   'Brand Collection',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       color: Color(0xff505050),
                       fontWeight: FontWeight.w600),
                 ),
@@ -252,7 +253,7 @@ class _FirstPageState extends State<FirstPage> {
                       'See all',
                       style: TextStyle(
                           color: Color(0xff505050).withOpacity(0.7),
-                          fontSize: 16),
+                          fontSize: 14),
                     ))
               ],
             ),
@@ -293,7 +294,7 @@ class _FirstPageState extends State<FirstPage> {
                       'PROPOSAL RINGS',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 23,
+                          fontSize: 22,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.6),
                     ),
@@ -301,18 +302,18 @@ class _FirstPageState extends State<FirstPage> {
                       'LUXURY JEWELERY',
                       style: TextStyle(
                           letterSpacing: 5,
-                          color: Colors.white.withOpacity(0.8)),
+                          color: Colors.white.withOpacity(0.8),fontSize: 14.2),
                     ),
                     Spacer(),
                     Text(
                       'GOLD ERA COLLECTION',
                       style: TextStyle(
-                          color: Color(0xffC5A879), letterSpacing: 1.5),
+                          color: Color(0xffC5A879), letterSpacing: 1.5,fontSize: 10),
                     ),
                     Text(
                       '25th March - Release Date',
                       style:
-                      TextStyle(letterSpacing: 2, color: Color(0xff505050)),
+                      TextStyle(letterSpacing: 1, color: Color(0xff505050),fontSize: 10,fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
@@ -326,7 +327,7 @@ class _FirstPageState extends State<FirstPage> {
                 Text(
                   'Gold Categories',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       color: Color(0xff505050),
                       fontWeight: FontWeight.w600),
                 ),
@@ -342,7 +343,7 @@ class _FirstPageState extends State<FirstPage> {
                       'See all',
                       style: TextStyle(
                           color: Color(0xff505050).withOpacity(0.7),
-                          fontSize: 16),
+                          fontSize: 14),
                     ))
               ],
             ),
@@ -381,7 +382,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -408,7 +409,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -435,7 +436,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -464,7 +465,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -479,7 +480,7 @@ class _FirstPageState extends State<FirstPage> {
                 Text(
                   'Silver Categories',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       color: Color(0xff505050),
                       fontWeight: FontWeight.w600),
                 ),
@@ -495,7 +496,7 @@ class _FirstPageState extends State<FirstPage> {
                       'See all',
                       style: TextStyle(
                           color: Color(0xff505050).withOpacity(0.7),
-                          fontSize: 16),
+                          fontSize: 14),
                     ))
               ],
             ),
@@ -534,7 +535,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -561,7 +562,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -588,7 +589,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                            fontSize: 14),
                       )
                     ],
                   ),
@@ -617,7 +618,7 @@ class _FirstPageState extends State<FirstPage> {
                         style: TextStyle(
                             color: Color(0xff3A3A3A),
                             fontWeight: FontWeight.w600,
-                            fontSize: 15),
+                            fontSize: 14),
                       )
                     ],
                   ),

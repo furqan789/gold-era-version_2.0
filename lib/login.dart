@@ -7,6 +7,11 @@ import 'GoldpriceModel.dart';
 import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
 import 'GoldpriceModel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,6 +19,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool subvalue = false;
+  bool _isObscure = true;
   FirebaseAuth _firebaseAuth;
   String _email, _password;
   bool showPassword = true, isLoaded = false;
@@ -78,261 +85,282 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     _firebaseAuth = FirebaseAuth.instance;
+    bool subvalue = false;
+    bool _isObscure = true;
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                Color(0xfffcf6ba),
-                Color(0xfffcf6ba),
-              ])),
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xffF8F8F8),
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: isLoaded,
-        progressIndicator: CircularProgressIndicator(
-            backgroundColor: Colors.brown.shade50.withOpacity(0.8),
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Colors.brown.shade200.withOpacity(0.8),
-            )),
-        child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                  Color(0xfffcf6ba),
-                  Color(0xffdcbf7e),
-                  Color(0xfffcf6ba),
-                  Color(0xfffcf6ba),
-                  Color(0xffc7a865),
-                ])),
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: 90,
-                    ),
-                    Column(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: ModalProgressHUD(
+            inAsyncCall: isLoaded,
+            progressIndicator: CircularProgressIndicator(
+                backgroundColor: Colors.brown.shade50.withOpacity(0.8),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.brown.shade200.withOpacity(0.8),
+                )),
+            child: Container(
+                width: double.infinity,
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Stack(
                       children: [
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 30,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF2B2A0B),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height*0.5,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/images/sign_up_bg.png'),
+                                  fit: BoxFit.cover
+                              )
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text('Login to your account',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xbe24200a),
-                              letterSpacing: 1,
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(38.0),
-                      child: Form(
-                        key: _formkey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              validator: (value) {
-                                if (value == null || value == "") {
-                                  return "Please do not leave this field blank";
-                                } else if (!RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(value)) {
-                                  return "Please enter a valid email address";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _email = value;
-                              },
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Colors.black,
-                                )),
-                                labelText: 'Enter your email',
-                              ),
+                        SingleChildScrollView(
+                          child: Container(
+                            margin: EdgeInsets.only(top:300),
+                            height: MediaQuery.of(context).size.height*0.6,
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 5.0,
+                                      offset: Offset(0, -7.0)
+                                  )
+                                ],
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+                                color: Colors.white
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value == null || value == "") {
-                                  return "Please don't leave this field empty";
-                                } else if (!RegExp(
-                                        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
-                                    .hasMatch(value)) {
-                                  return "Please enter a valid password!";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                value != null ? _password = value : null;
-                              },
-                              obscureText: showPassword,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Password'),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 1, top: 1),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.black),
-                                    right: BorderSide(color: Colors.black),
-                                    left: BorderSide(color: Colors.black),
-                                    top: BorderSide(color: Colors.black),
-                                  )),
-                              child: MaterialButton(
-                                height: 60,
-                                minWidth: double.infinity,
-                                onPressed: () async {
-                                  if (formSubmission()) {
-                                    try {
-                                      setState(() {
-                                        isLoaded = true;
-                                      });
-                                      var auth = await _firebaseAuth
-                                          .signInWithEmailAndPassword(
-                                              email: _email,
-                                              password: _password);
+                            child: Form(
+                              key: _formkey,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top:50.0,left:40,right: 40),
 
-                                      if (auth != null) {
-                                        await GoldpriceModel()
-                                            .getLatestPrices()
-                                            .then((value) {
-                                          Provider.of<GoldInfo>(context,
-                                                  listen: false)
-                                              .getLatestData(value);
-                                        }).then((value) async {
-                                          await GoldpriceModel()
-                                              .getGoldPriceData()
-                                              .then((value) {
-                                            Provider.of<GoldInfo>(context,
-                                                    listen: false)
-                                                .getGoldData(value);
-                                          });
-                                        }).then((value) async {
-                                                  GoldpriceModel()
-                                                      .getLatestPricesSilver().then((value) => Provider.of<GoldInfo>(context,listen: false).getLatestDataSilver(value));
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Get Started', style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),),
+                                    Padding(
+                                      padding: const EdgeInsets.only( bottom: 5,top: 25),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value == "") {
+                                            return "Please do not leave this field blank";
+                                          } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                              .hasMatch(value)) {
+                                            return "Please enter a valid email address";
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          _email = value;
+                                        },
+                                        decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            hintText: 'Name',
+                                            hintStyle: TextStyle(color: Color(
+                                                0xffa59f9f),fontSize: 17)
+
+
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        ],
+
+                                        decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            hintText: 'Phone Number',
+                                            hintStyle: TextStyle(color: Color(
+                                                0xffa59f9f),fontSize: 17)
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value == "") {
+                                            return "Please don't leave this field empty";
+                                          } else if (!RegExp(
+                                              r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
+                                              .hasMatch(value)) {
+                                            return "Please enter a valid password!";
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          value != null ? _password = value : null;
+                                        },
+                                        obscureText: _isObscure,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+
+                                        decoration: InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            hintText: 'Password',
+                                            suffixIcon: IconButton(
+                                                icon: Icon(
+                                                    _isObscure ? Icons.visibility : Icons.visibility_off),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isObscure = !_isObscure;
+                                                  });
+                                                }),
+                                            hintStyle: TextStyle(color: Color(
+                                                0xffa59f9f),fontSize: 17)
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 30,top:18),
+
+                                      child: Row(
+
+                                        children: [
+                                          SizedBox(
+                                            height:24,
+                                            width: 24,
+                                            child: Checkbox(value: this.subvalue, onChanged: (bool value) {
+                                              setState(() {
+                                                this.subvalue = value;
+                                              },);
+                                            }),
+                                          ),
+                                          SizedBox(width: 12,),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'I agree to the',
+                                              style:TextStyle(color: Color(0xff505050),letterSpacing: 1),
+                                              children: <TextSpan>[
+                                                TextSpan(text: ' T&C ', style: TextStyle(color: Color(
+                                                    0xfff3a922),)),
+                                                TextSpan(text: 'and'),
+                                                TextSpan(text: ' Privacy Policy',style: TextStyle(color: Color(
+                                                    0xfff3a922),)),
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      ),
+                                    ),
+                                    Center(
+                                      child: InkWell(
+                                        onTap: () async {
+                                          if (formSubmission()) {
+                                            try {
+                                              setState(() {
+                                                isLoaded = true;
+                                              });
+                                              var auth = await _firebaseAuth
+                                                  .signInWithEmailAndPassword(
+                                                  email: _email,
+                                                  password: _password);
+
+                                              if (auth != null) {
+                                                await GoldpriceModel()
+                                                    .getLatestPrices()
+                                                    .then((value) {
+                                                  Provider.of<GoldInfo>(context,
+                                                      listen: false)
+                                                      .getLatestData(value);
+                                                }).then((value) async {
+                                                  await GoldpriceModel()
+                                                      .getGoldPriceData()
+                                                      .then((value) {
+                                                    Provider.of<GoldInfo>(context,
+                                                        listen: false)
+                                                        .getGoldData(value);
+                                                  });
+                                                }).then((value) async {
+                                                  await GoldpriceModel()
+                                                      .getLatestPricesSilver().then((value) { Provider.of<GoldInfo>(context,listen: false).getLatestDataSilver(value);
+                                                  print(Provider.of<GoldInfo>(context,listen: false).setLatestDataSilver());
+                                                      });
                                                 });
 
-                                        setState(() {
-                                          isLoaded = false;
-                                        });
+                                                setState(() {
+                                                  isLoaded = false;
+                                                });
 
-                                        Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            'Bottom',
-                                            (route) => false);
-                                      }
-                                    } catch (e) {
-                                      setState(() {
-                                        isLoaded = false;
-                                      });
-                                      print(e);
-                                      await _showMyDialog(
-                                          "Error!",
-                                          "Some error occurred while signing in. Please  check your email and password and try again",
-                                          "Ok", () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                      });
-                                    }
-                                  }
-                                },
-                                elevation: 0,
-                                color: Color(0xFFA97829),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                                Navigator.pushNamedAndRemoveUntil(
+                                                    context,
+                                                    'Bottom',
+                                                        (route) => false);
+                                              }
+                                            } catch (e) {
+                                              setState(() {
+                                                isLoaded = false;
+                                              });
+                                              print(e);
+                                              await _showMyDialog(
+                                                  "Error!",
+                                                  "Some error occurred while signing in. Please  check your email and password and try again",
+                                                  "Ok", () {
+                                                Navigator.of(context,
+                                                    rootNavigator: true)
+                                                    .pop();
+                                              });
+                                            }
+                                          }
+                                        },
+
+                                        child: Container(
+                                          height:50,
+                                          width:MediaQuery.of(context).size.width,//set your height here
+                                          //set your width here
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffF5BA4C),
+                                              borderRadius: BorderRadius.all(Radius.circular(8))
+
+                                          ),
+                                          child: Center(child: Text('Sign Up', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18.5,fontWeight: FontWeight.w600,
+                                          ),)),
+                                        ),
+                                      ),
+                                    ),
+                                    Spacer(),
+
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          Text('Already have an account ?',style: TextStyle(color: Color(0xff505050)),),SizedBox(height: 4,),
+                                          GestureDetector(onTap: null,child: Text('Log In',style: TextStyle(color:Color(0xffF5BA4C),fontSize: 15,fontWeight: FontWeight.w600
+                                          ))),
+                                        ],
+                                      ),
+                                    )
+
+                                  ],
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      showPassword = false;
-                                    });
-                                  },
-                                  child: Text('Show password')),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Don't have an account?",
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, 'Sign Up');
-                                  },
-                                  child: Text(
-                                    ' Click here',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF2B2A0B),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
+                          ),
+                        )
+
+
+
+
+                      ],
                     ),
+
+
                   ],
                 )),
-              ],
-            )),
+          ),
+        ),
       ),
     );
   }

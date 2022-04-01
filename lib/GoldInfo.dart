@@ -33,6 +33,10 @@ class GoldInfo extends ChangeNotifier {
 
   void getLatestDataSilver(Map<String, dynamic> taajaKhabar) {
     latestNewsSilver = taajaKhabar;
+    print(latestNewsSilver);
+    print(taajaKhabar);
+
+
   }
   Map<String, dynamic> setLatestData() {
     return latestNews;

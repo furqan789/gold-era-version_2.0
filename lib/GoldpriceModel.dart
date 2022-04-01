@@ -176,7 +176,6 @@ class GoldpriceModel {
       );
 
       String data = response.body;
-
       data = data.substring(1, data.length - 1); // get rid of curly braces
       var list = data.split(",");
       var temp = [];

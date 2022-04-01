@@ -15,37 +15,45 @@ class _BottomState extends State<Bottom> {
   final tabs = <Widget>[
     FirstPage(),
     SecondPage(),
-    ThirdPage(),
+    Cart(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: tabs[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xffff8418),
-        backgroundColor: Colors.white.withOpacity(0.7),
-        currentIndex: _currentIndex,
-        elevation: 0,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.trending_up_sharp),
-            label: 'Trending',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_outlined),
-            label: 'Categories',
-          ),
-        ],
-        onTap: (index) {
-          _currentIndex = index;
-          setState(() {
+      
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
+        child: BottomNavigationBar(
+
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Color(0xff505050).withOpacity(0.7),
+          backgroundColor: Color(0xffF8CF82),
+          currentIndex: _currentIndex,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined,size: 26,),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.trending_up_sharp,size: 26),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_outlined,size: 26),
+              label: '',
+            ),
+          ],
+          onTap: (index) {
             _currentIndex = index;
-          });
-        },
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
