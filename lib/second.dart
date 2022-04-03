@@ -12,7 +12,7 @@ class SecondPage extends StatefulWidget {
 
 DateTime selectedDate;
 String estimatedPrice;
-
+//j
 class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
