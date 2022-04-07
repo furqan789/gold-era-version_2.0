@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
+import 'package:provider/provider.dart';
+
+import 'GoldInfo.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -8,8 +13,38 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  double total = 0;
+  double gst = 1.8 / 100;
+
+  openwhatsapp() async {
+    var whatsapp = "+918451976510";
+    String text = "hello";
+    var whatsappURl_android =
+        "whatsapp://send?phone=" + whatsapp + "&text= $text";
+    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android , web
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: new Text("whatsapp not installed")));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> cart =
+        Provider.of<GoldInfo>(context).shoppingCart;
     return Container(
       decoration: BoxDecoration(
         color: Color(0xffF8F8F8),
@@ -76,10 +111,14 @@ class _CartState extends State<Cart> {
                           RichText(
                             text: TextSpan(
                               text: 'Gold',
-                              style:TextStyle(color: Color(0xfff3a922),letterSpacing: 1),
+                              style: TextStyle(
+                                  color: Color(0xfff3a922), letterSpacing: 1),
                               children: <TextSpan>[
-
-                                TextSpan(text: ' | 7 gram',style: TextStyle(color: Color(0xff505050),)),
+                                TextSpan(
+                                    text: ' | 7 gram',
+                                    style: TextStyle(
+                                      color: Color(0xff505050),
+                                    )),
                               ],
                             ),
                           )
@@ -185,18 +224,23 @@ class _CartState extends State<Cart> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 53, //set your height here
-                    width: double.maxFinite, //set your width here
-                    decoration: BoxDecoration(
-                        color: Color(0xffF5BA4C),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Center(
-                        child: Text(
-                      'Checkout',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 22),
-                    )),
+                  GestureDetector(
+                    onTap: () async {
+                      await openwhatsapp();
+                    },
+                    child: Container(
+                      height: 53, //set your height here
+                      width: double.maxFinite, //set your width here
+                      decoration: BoxDecoration(
+                          color: Color(0xffF5BA4C),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: Center(
+                          child: Text(
+                        'Checkout',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 22),
+                      )),
+                    ),
                   ),
                 ],
               )),

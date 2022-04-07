@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gold_price_predictor/Cart.dart';
 import 'package:gold_price_predictor/GoldInfo.dart';
 import 'package:gold_price_predictor/signup.dart';
-import 'package:gold_price_predictor/categories.dart';
+//import 'package:gold_price_predictor/categories.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'MainPage.dart';
@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
         'Third': (context) => ThirdPage(),
         'Bottom': (context) => Bottom(),
         'Cart': (context) => Cart(),
-        'Categories':(context) => Categories(),
+//        'Categories':(context) => Categories(),
       },
     );
   }

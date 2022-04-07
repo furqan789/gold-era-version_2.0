@@ -10,7 +10,7 @@ import 'GoldInfo.dart';
 import 'GoldpriceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import 'package:flutter/services.dart';
 
@@ -145,7 +145,9 @@ class _LoginPageState extends State<LoginPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text('Welcome Back', style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),),
+                                    Text('Welcome Back',
+//                                      style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only( bottom: 5,top: 25),
                                       child: TextFormField(
