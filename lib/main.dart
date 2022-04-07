@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gold_price_predictor/Cart.dart';
 import 'package:gold_price_predictor/GoldInfo.dart';
 import 'package:gold_price_predictor/signup.dart';
+import 'package:gold_price_predictor/categories.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'MainPage.dart';
 import 'first.dart';
@@ -24,6 +26,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: 'Main',
       routes: {
         'Main': (context) => MainPage(),
@@ -33,7 +36,8 @@ class Home extends StatelessWidget {
         'Second': (context) => SecondPage(),
         'Third': (context) => ThirdPage(),
         'Bottom': (context) => Bottom(),
-        'Cart': (context) => Cart()
+        'Cart': (context) => Cart(),
+        'Categories':(context) => Categories(),
       },
     );
   }

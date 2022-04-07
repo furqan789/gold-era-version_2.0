@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gold_price_predictor/signup.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'GoldInfo.dart';
 import 'GoldpriceModel.dart';
@@ -144,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text('Get Started', style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),),
+                                    Text('Welcome Back', style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),),
                                     Padding(
                                       padding: const EdgeInsets.only( bottom: 5,top: 25),
                                       child: TextFormField(
@@ -171,22 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                        ],
 
-                                        decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(),
-                                            hintText: 'Phone Number',
-                                            hintStyle: TextStyle(color: Color(
-                                                0xffa59f9f),fontSize: 17)
-                                        ),
-                                      ),
-                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                                       child: TextFormField(
@@ -223,39 +209,12 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(bottom: 30,top:18),
-
-                                      child: Row(
-
-                                        children: [
-                                          SizedBox(
-                                            height:24,
-                                            width: 24,
-                                            child: Checkbox(value: this.subvalue, onChanged: (bool value) {
-                                              setState(() {
-                                                this.subvalue = value;
-                                              },);
-                                            }),
-                                          ),
-                                          SizedBox(width: 12,),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'I agree to the',
-                                              style:TextStyle(color: Color(0xff505050),letterSpacing: 1),
-                                              children: <TextSpan>[
-                                                TextSpan(text: ' T&C ', style: TextStyle(color: Color(
-                                                    0xfff3a922),)),
-                                                TextSpan(text: 'and'),
-                                                TextSpan(text: ' Privacy Policy',style: TextStyle(color: Color(
-                                                    0xfff3a922),)),
-                                              ],
-                                            ),
-                                          )
-
-                                        ],
-                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:8.0,bottom: 30),
+                                      child: Align(alignment:Alignment.centerRight,child: Text('Forgot Passcode?',style: TextStyle(color: Color(
+                                          0xff505050).withOpacity(0.8),letterSpacing: 1,decoration: TextDecoration.underline),)),
                                     ),
+
                                     Center(
                                       child: InkWell(
                                         onTap: () async {
@@ -326,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                                               borderRadius: BorderRadius.all(Radius.circular(8))
 
                                           ),
-                                          child: Center(child: Text('Sign Up', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18.5,fontWeight: FontWeight.w600,
+                                          child: Center(child: Text('Log in', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18.5,fontWeight: FontWeight.w600,
                                           ),)),
                                         ),
                                       ),
@@ -337,7 +296,12 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Column(
                                         children: [
                                           Text('Already have an account ?',style: TextStyle(color: Color(0xff505050)),),SizedBox(height: 4,),
-                                          GestureDetector(onTap: null,child: Text('Log In',style: TextStyle(color:Color(0xffF5BA4C),fontSize: 15,fontWeight: FontWeight.w600
+                                          GestureDetector(onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => SignupPage()));
+                                          },child: Text('Register',style: TextStyle(color:Color(0xffF5BA4C),fontSize: 15,fontWeight: FontWeight.w600
                                           ))),
                                         ],
                                       ),

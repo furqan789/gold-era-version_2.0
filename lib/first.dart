@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
+import 'package:gold_price_predictor/categories.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class _FirstPageState extends State<FirstPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 30, top: 35),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 30, top: 20),
             child: Row(
               children: [
                 Container(
@@ -244,10 +245,10 @@ class _FirstPageState extends State<FirstPage> {
                 Spacer(),
                 TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => Categories()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Categories()));
                     },
                     child: Text(
                       'See all',
