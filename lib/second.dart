@@ -52,8 +52,21 @@ class _SecondPageState extends State<SecondPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-            Container(
-            padding: EdgeInsets.only(top: 25, bottom: 25),
+
+            Padding(
+                  padding: const EdgeInsets.only(top:30.0),
+                  child: Container(
+                    child: GoldpriceModel().linearGraph(
+                        goldData[0], goldData[1], goldData[0].length),
+
+
+
+                    width: double.infinity,
+                    height: 240,
+                  ),
+                ),
+                Container(
+            padding: EdgeInsets.only(top: 68, bottom: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -216,7 +229,12 @@ class _SecondPageState extends State<SecondPage> {
                 ),
               ],
             ),
-          ),
+          )
+                ,
+
+
+
+                //graph
                 Center(
                   child: InkWell(
                     onTap: () async {
@@ -258,40 +276,6 @@ class _SecondPageState extends State<SecondPage> {
                             blurRadius: 3.5),
                       ]),)),
                     ),
-                  ),
-                )
-                ,
-          Center(
-            child:  Container(
-              decoration: BoxDecoration(
-                border: Border(
-                )
-              ),
-              color: Color(0xff505050).withOpacity(0.20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(onPressed: null, child: Text("Gold"),style: ElevatedButton.styleFrom(primary: Colors.white),),
-                  SizedBox(width: 5),
-                  ElevatedButton(onPressed: null, child: Text("Silver"),style: ElevatedButton.styleFrom(primary: Colors.white),),
-//jkljh
-                ],
-              ),
-            ),
-          ),
-
-
-                //graph
-                Padding(
-                  padding: const EdgeInsets.only(top:30.0,right: 18),
-                  child: Container(
-                    child: GoldpriceModel().linearGraph(
-                        goldData[0], goldData[1], goldData[0].length),
-
-
-
-                    width: double.infinity,
-                    height: 240,
                   ),
                 )
               ],
