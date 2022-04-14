@@ -9,7 +9,7 @@ class GoldInfo extends ChangeNotifier {
   double estimatedPrice;
   DateTime selectedDate;
   List<Map<String, dynamic>> shoppingCart;
-
+  List<dynamic> silverPriceData;
 
   void getEstimatedPrice(double kimat) {
     estimatedPrice = kimat;
@@ -35,9 +35,8 @@ class GoldInfo extends ChangeNotifier {
     latestNewsSilver = taajaKhabar;
     print(latestNewsSilver);
     print(taajaKhabar);
-
-
   }
+
   Map<String, dynamic> setLatestData() {
     return latestNews;
   }
@@ -50,12 +49,17 @@ class GoldInfo extends ChangeNotifier {
     goldPriceData = data;
   }
 
-
+  void getSilverData(List<dynamic> data) {
+    silverPriceData = data;
+  }
 
   List<dynamic> setGoldData() {
     return goldPriceData;
   }
 
+  List<dynamic> setSilverData() {
+    return silverPriceData;
+  }
 
   void addItemInCart(Map<String, dynamic> item) {
     if (shoppingCart == null) {

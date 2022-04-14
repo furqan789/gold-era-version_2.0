@@ -50,7 +50,7 @@ class GoldpriceModel {
       temp1.add(element[0]);
 
 //      csvData.add(double.parse(element[1]));
-      csvData1.add(double.parse(element[1]));
+      csvData1.add(double.parse(element[1].toString()));
 
       //Y-axis
       serialNo1.add(i); //X-axis
@@ -73,29 +73,22 @@ class GoldpriceModel {
         maxX: 13450,
         minY: 0,
         maxY: 2500,
-
         gridData: FlGridData(show: false, drawVerticalLine: true),
         titlesData: FlTitlesData(
-            show:false, bottomTitles: SideTitles(showTitles: false)),
+            show: false, bottomTitles: SideTitles(showTitles: false)),
         lineBarsData: [
           LineChartBarData(
             isCurved: true,
             spots: spots,
             colors: [Color(0xfff8ce7f)],
             dotData: FlDotData(show: false),
-
             belowBarData: BarAreaData(
-              show: true,
-              colors: [Color(0xfff5ba4c), Colors.white],
-              gradientColorStops: [0,1],
-              gradientFrom: Offset.fromDirection(-1),
-              gradientTo: Offset.fromDirection(1.5)
-
-
-
-            ),
+                show: true,
+                colors: [Color(0xfff5ba4c), Colors.white],
+                gradientColorStops: [0, 1],
+                gradientFrom: Offset.fromDirection(-1),
+                gradientTo: Offset.fromDirection(1.5)),
           ),
-
         ]));
   }
 

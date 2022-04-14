@@ -36,12 +36,12 @@ class _FirstPageState extends State<FirstPage> {
   Map<String, dynamic> latest_prices;
   Map<String, dynamic> latest_prices_Silver;
   GoldpriceModel _model;
-
   FirebaseAuth _firebaseAuth;
   List<dynamic> goldPriceData;
   DateTime today;
   List<File> images;
   String dropdownvalue = 'Gold';
+  String dropdownvalueCategory = 'Ring';
 
   final double conversion_factor = 28.35;
   final url =
@@ -110,6 +110,23 @@ class _FirstPageState extends State<FirstPage> {
         },
       ),
     ];
+    //**************************************
+    var categoriesList = [
+      DropdownMenuItem(
+        child: Text('Ring'),
+        value: "Ring",
+        onTap: () {
+          dropdownvalueCategory = "Ring";
+        },
+      ),
+      DropdownMenuItem(
+        child: Text('Necklace'),
+        value: "Necklace",
+        onTap: () {
+          dropdownvalueCategory = "Necklace";
+        },
+      ),
+    ];
 
     bool formsubmission() {
       if (_formKey.currentState.validate()) {
@@ -144,15 +161,18 @@ class _FirstPageState extends State<FirstPage> {
                       color: Color(0xff505050)),
                 ),
                 Spacer(),
-//                ElevatedButton(
-//                  child: Text("Silver price prediction"),
-//                  onPressed: () async {
-//                    var silverPrice =
-//                        await GoldpriceModel().getSilverPriceData();
-//                    print(silverPrice);
-//                  },
-//                ),
-              //jdh
+                ElevatedButton(
+                  child: Text("Silver price prediction"),
+                  onPressed: () async {
+                    var silverPrice =
+                        await GoldpriceModel().getSilverPriceData();
+                    print(GoldpriceModel().linearRegression(
+                        silverPrice[1], silverPrice[0], DateTime.now()));
+                    Provider.of<GoldInfo>(context, listen: false)
+                        .getSilverData(silverPrice);
+                  },
+                ),
+                //jdh
                 ElevatedButton(
                   child: Icon(
                     Icons.add,
@@ -281,22 +301,39 @@ class _FirstPageState extends State<FirstPage> {
                                                     fontSize: 17)),
                                           ),
                                         ),
-//                                          DropdownButton(
-//                                              value: dropdownvalue,
-//                                              items: items,
-//                                              hint: Text("Select metal"),
-//                                              onChanged: (value) {
-//                                                if (value != null) {
-//                                                  setState(
-//                                                    () {
-//                                                      print(value);
-//                                                      setState(() {
-//                                                        dropdownvalue = value;
-//                                                      });
-//                                                    },
-//                                                  );
-//                                                }
-//                                              })
+                                        DropdownButton(
+                                            value: dropdownvalue,
+                                            items: items,
+                                            hint: Text("Select metal"),
+                                            onChanged: (value) {
+                                              if (value != null) {
+                                                setState(
+                                                  () {
+                                                    print(value);
+                                                    setState(() {
+                                                      dropdownvalue = value;
+                                                    });
+                                                  },
+                                                );
+                                              }
+                                            }),
+                                        DropdownButton(
+                                            value: dropdownvalueCategory,
+                                            items: categoriesList,
+                                            hint: Text("Select metal"),
+                                            onChanged: (value) {
+                                              if (value != null) {
+                                                setState(
+                                                  () {
+                                                    print(value);
+                                                    setState(() {
+                                                      dropdownvalueCategory =
+                                                          value;
+                                                    });
+                                                  },
+                                                );
+                                              }
+                                            })
                                       ],
                                     ),
                                   ),
