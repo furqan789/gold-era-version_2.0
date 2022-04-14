@@ -125,7 +125,7 @@ class _FirstPageState extends State<FirstPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 30, top: 20),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 30, top: 30),
             child: Row(
               children: [
                 Container(

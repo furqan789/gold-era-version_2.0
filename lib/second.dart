@@ -52,8 +52,21 @@ class _SecondPageState extends State<SecondPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-            Container(
-            padding: EdgeInsets.only(top: 25, bottom: 25),
+
+            Padding(
+                  padding: const EdgeInsets.only(top:30.0),
+                  child: Container(
+                    child: GoldpriceModel().linearGraph(
+                        goldData[0], goldData[1], goldData[0].length),
+
+
+
+                    width: double.infinity,
+                    height: 240,
+                  ),
+                ),
+                Container(
+            padding: EdgeInsets.only(top: 68, bottom: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -113,14 +126,26 @@ class _SecondPageState extends State<SecondPage> {
                               color: Color(0xffFFFFFF),
                             )),
                       ),
-                      Text(
-                        '₹ 6506.26/gm',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xffFFFFFF),
-                        ),
+                      selectedDate != null && estimatedPrice != null
+                          ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+
+                          Text(
+                            '\u{20B9} ${estimatedPrice} /gm',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffFFFFFF),
+                            ),
+                          )
+                        ],
                       )
+                          : Text(
+                            '\u{20B9} - -/- -',style: TextStyle(color: Colors.white,fontSize: 19),
+
+                          ),
                     ],
                   ),
                 ),
@@ -179,14 +204,26 @@ class _SecondPageState extends State<SecondPage> {
                               color: Color(0xffFFFFFF),
                             )),
                       ),
-                      Text(
-                        '₹ 106.45/gm',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xffFFFFFF),
-                        ),
+                      selectedDate != null && estimatedPrice != null
+                          ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+
+                          Text(
+                            '\u{20B9} - - / -- gm',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffFFFFFF),
+                            ),
+                          )
+                        ],
                       )
+                          : Text(
+                        '\u{20B9} - -/- -',style: TextStyle(color: Colors.white,fontSize: 19),
+
+                      ),
                     ],
                   ),
                 ),
@@ -194,109 +231,51 @@ class _SecondPageState extends State<SecondPage> {
             ),
           )
                 ,
-                Container(
 
-                  height: 65,
-                  width: double.infinity,
-                  child: MaterialButton(
-                    onPressed: () async {
+
+
+                //graph
+                Center(
+                  child: InkWell(
+                    onTap: () async {
                       var value = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime.now(),
                           lastDate:
-                              DateTime.now().add(Duration(days: 100)));
+                          DateTime.now().add(Duration(days: 100)));
 
                       setState(() {
                         if (value != null) {
                           selectedDate = value;
                           estimatedPrice = GoldpriceModel()
                               .linearRegression(
-                                  goldData[1], goldData[0], selectedDate);
+                              goldData[1], goldData[0], selectedDate);
                         }
                         Provider.of<GoldInfo>(context, listen: false)
                             .getEstimatedPrice(
-                                double.parse(estimatedPrice));
+                            double.parse(estimatedPrice));
                         Provider.of<GoldInfo>(context, listen: false)
                             .getSelectedDate(selectedDate);
                       });
                     },
-                    child: Text(
-                      'CHOOSE DATE',
-                      style: TextStyle(
-                        color: Color(0xff8b3721),
-                        fontFamily: "PlayfairDisplay",
-                        fontWeight: FontWeight.w600,
+
+                    child: Container(
+                      height:50,
+                      width:MediaQuery.of(context).size.width*0.5,//set your height here
+                      //set your width here
+                      decoration: BoxDecoration(
+                          color: Color(0xffF5BA4C),
+                          borderRadius: BorderRadius.all(Radius.circular(8))
+
                       ),
+                      child: Center(child: Text('Choose Date', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 21.5,fontWeight: FontWeight.w600,shadows: [
+                        Shadow(
+                            color: Colors.black.withOpacity(0.3),
+                            offset: const Offset(2.85, 2.85),
+                            blurRadius: 3.5),
+                      ]),)),
                     ),
-                  ),
-                ),
-                selectedDate != null && estimatedPrice != null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'On ' +
-                                selectedDate.day.toString() +
-                                "/" +
-                                selectedDate.month.toString() +
-                                "/" +
-                                selectedDate.year.toString(),
-                            style: TextStyle(
-                              fontFamily: "PlayfairDisplay",
-                              color: Color(0xCD872309),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            'Estimated Price : \u{20B9} ${estimatedPrice} /gm',
-                            style: TextStyle(
-                              fontFamily: "PlayfairDisplay",
-                              color: Color(0xCD872309),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      )
-                    : Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text(
-                          'Please select a date to make a prediction for that day.',
-                          style: TextStyle(
-                            fontFamily: "PlayfairDisplay",
-                            color: Color(0xCD872309),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 12, top: 50, bottom: 50),
-                  child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(15.0),
-                      child: GoldpriceModel().linearGraph(
-                          goldData[0], goldData[1], goldData[0].length),
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        gradient: LinearGradient(colors: [
-                          Colors.white.withOpacity(0.8),
-                          Colors.white.withOpacity(0.1),
-                        ] //i
-                            ),
-                        border: Border.all(
-                          width: 1.8,
-                          color: Colors.white,
-                        )),
-                    width: double.infinity,
-                    height: 240,
                   ),
                 )
               ],

@@ -1,6 +1,7 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
@@ -66,22 +67,35 @@ class GoldpriceModel {
     }
     return LineChart(LineChartData(
         borderData: FlBorderData(
-          show: true,
+          show: false,
         ),
         minX: 0,
         maxX: 13450,
         minY: 0,
         maxY: 2500,
-        gridData: FlGridData(show: false, drawVerticalLine: false),
+
+        gridData: FlGridData(show: false, drawVerticalLine: true),
         titlesData: FlTitlesData(
-            show: true, bottomTitles: SideTitles(showTitles: false)),
+            show:false, bottomTitles: SideTitles(showTitles: false)),
         lineBarsData: [
           LineChartBarData(
             isCurved: true,
             spots: spots,
+            colors: [Color(0xfff8ce7f)],
             dotData: FlDotData(show: false),
-            colors: [Colors.red, Color(0xFFC89149)],
+
+            belowBarData: BarAreaData(
+              show: true,
+              colors: [Color(0xfff5ba4c), Colors.white],
+              gradientColorStops: [0,1],
+              gradientFrom: Offset.fromDirection(-1),
+              gradientTo: Offset.fromDirection(1.5)
+
+
+
+            ),
           ),
+
         ]));
   }
 
