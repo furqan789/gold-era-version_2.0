@@ -152,6 +152,7 @@ class _FirstPageState extends State<FirstPage> {
 //                    print(silverPrice);
 //                  },
 //                ),
+              //jdh
                 ElevatedButton(
                   child: Icon(
                     Icons.add,
