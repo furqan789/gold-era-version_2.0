@@ -15,7 +15,15 @@ class GoldInfo extends ChangeNotifier {
     estimatedPrice = kimat;
   }
 
+  void getEstimatedPriceSilver(double kimat) {
+    estimatedPrice = kimat;
+  }
+
   double setEstimatedPrice() {
+    return estimatedPrice;
+  }
+
+  double setEstimatedPriceSilver() {
     return estimatedPrice;
   }
 

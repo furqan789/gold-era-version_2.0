@@ -42,7 +42,7 @@ class _FirstPageState extends State<FirstPage> {
   List<File> images;
   String dropdownvalue = 'Gold';
   String dropdownvalueCategory = 'Ring';
-
+  final adminEmail = "atharvtmnh823@gmail.com";
   final double conversion_factor = 28.35;
   final url =
       "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
@@ -88,7 +88,9 @@ class _FirstPageState extends State<FirstPage> {
       "Weight": 0,
       "Making Charge": 0
     };
-    String designation = "admin";
+    String designation = FirebaseAuth.instance.currentUser.email == adminEmail
+        ? "admin"
+        : "user";
     goldPriceData = Provider.of<GoldInfo>(context).setGoldData();
     latest_prices = Provider.of<GoldInfo>(context).setLatestData();
     latest_prices_Silver = Provider.of<GoldInfo>(context).setLatestDataSilver();
@@ -161,226 +163,264 @@ class _FirstPageState extends State<FirstPage> {
                       color: Color(0xff505050)),
                 ),
                 Spacer(),
-                ElevatedButton(
-                  child: Text("Silver price prediction"),
-                  onPressed: () async {
-                    var silverPrice =
-                        await GoldpriceModel().getSilverPriceData();
-                    print(GoldpriceModel().linearRegression(
-                        silverPrice[1], silverPrice[0], DateTime.now()));
-                    Provider.of<GoldInfo>(context, listen: false)
-                        .getSilverData(silverPrice);
-                  },
-                ),
+//                ElevatedButton(
+//                  child: Text("Silver price prediction"),
+//                  onPressed: () async {
+//                    var silverPrice =
+//                        await GoldpriceModel().getSilverPriceData();
+//                    print(GoldpriceModel().linearRegression(
+//                        silverPrice[1], silverPrice[0], DateTime.now()));
+//                    Provider.of<GoldInfo>(context, listen: false)
+//                        .getSilverData(silverPrice);
+//                  },
+//                ),
                 //jdh
-                ElevatedButton(
-                  child: Icon(
-                    Icons.add,
-                    size: 25,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      primary: Color(0xff505050),
-                      shadowColor: Color(0xff505050)),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(top: 5),
-                            height: MediaQuery.of(context).size.height / 1.5,
-                            color: Colors.white,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: 2,
-                                          width: 65,
-                                          color: Colors.black,
-                                          margin: EdgeInsets.only(bottom: 30),
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                primary: Color(0xff505050)),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          child: Text("Pick Images"),
-                                          onPressed: () async {
-                                            await get_Image("Destiny");
-                                          },
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12.0),
-                                          child: TextFormField(
-                                            onSaved: (value) {
-                                              print(value);
-                                              productDetails["Name"] = value;
-                                            },
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return "Please don't leave this field empty";
-                                              }
-                                              return null;
-                                            },
-                                            keyboardType: TextInputType.text,
-                                            decoration: const InputDecoration(
-                                                fillColor: Color(0xffDCDCDC),
-                                                filled: true,
-                                                hintText: 'Name Of The Product',
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                    color: Color(0xff767676),
-                                                    fontSize: 17)),
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          onSaved: (value) {
-                                            print(value);
-                                            productDetails["Weight"] = value;
-                                          },
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return "Please don't leave this field empty";
-                                            }
-                                            return null;
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          decoration: const InputDecoration(
-                                              fillColor: Color(0xffDCDCDC),
-                                              filled: true,
-                                              hintText: 'Weight Of The Metal',
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              enabledBorder: InputBorder.none,
-                                              errorBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                  color: Color(0xff767676),
-                                                  fontSize: 17)),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12.0),
-                                          child: TextFormField(
-                                            onSaved: (value) {
-                                              print(value);
-                                              productDetails["Making Charge"] =
-                                                  value;
-                                            },
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return "Please don't leave this field empty";
-                                              }
-                                              return null;
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            decoration: const InputDecoration(
-                                                fillColor: Color(0xffDCDCDC),
-                                                filled: true,
-                                                hintText: 'Making Charge',
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                    color: Color(0xff767676),
-                                                    fontSize: 17)),
-                                          ),
-                                        ),
-                                        DropdownButton(
-                                            value: dropdownvalue,
-                                            items: items,
-                                            hint: Text("Select metal"),
-                                            onChanged: (value) {
-                                              if (value != null) {
-                                                setState(
-                                                  () {
+                designation.toLowerCase() == "admin"
+                    ? ElevatedButton(
+                        child: Icon(
+                          Icons.add,
+                          size: 25,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            primary: Color(0xff505050),
+                            shadowColor: Color(0xff505050)),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SingleChildScrollView(
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 5),
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.5,
+                                  color: Colors.white,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        child: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 2,
+                                                width: 65,
+                                                color: Colors.black,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 30),
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Color(
+                                                              0xff505050)),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                child: Text("Pick Images"),
+                                                onPressed: () async {
+                                                  await get_Image("Destiny");
+                                                },
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12.0),
+                                                child: TextFormField(
+                                                  onSaved: (value) {
                                                     print(value);
-                                                    setState(() {
-                                                      dropdownvalue = value;
-                                                    });
+                                                    productDetails["Name"] =
+                                                        value;
                                                   },
-                                                );
-                                              }
-                                            }),
-                                        DropdownButton(
-                                            value: dropdownvalueCategory,
-                                            items: categoriesList,
-                                            hint: Text("Select metal"),
-                                            onChanged: (value) {
-                                              if (value != null) {
-                                                setState(
-                                                  () {
+                                                  validator: (value) {
+                                                    if (value == null) {
+                                                      return "Please don't leave this field empty";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  decoration: const InputDecoration(
+                                                      fillColor:
+                                                          Color(0xffDCDCDC),
+                                                      filled: true,
+                                                      hintText:
+                                                          'Name Of The Product',
+                                                      border: InputBorder.none,
+                                                      focusedBorder:
+                                                          InputBorder.none,
+                                                      enabledBorder:
+                                                          InputBorder.none,
+                                                      errorBorder:
+                                                          InputBorder.none,
+                                                      hintStyle: TextStyle(
+                                                          color:
+                                                              Color(0xff767676),
+                                                          fontSize: 17)),
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                onSaved: (value) {
+                                                  print(value);
+                                                  productDetails["Weight"] =
+                                                      value;
+                                                },
+                                                validator: (value) {
+                                                  if (value == null) {
+                                                    return "Please don't leave this field empty";
+                                                  }
+                                                  return null;
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: const InputDecoration(
+                                                    fillColor:
+                                                        Color(0xffDCDCDC),
+                                                    filled: true,
+                                                    hintText:
+                                                        'Weight Of The Metal',
+                                                    border: InputBorder.none,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        InputBorder.none,
+                                                    errorBorder:
+                                                        InputBorder.none,
+                                                    hintStyle: TextStyle(
+                                                        color:
+                                                            Color(0xff767676),
+                                                        fontSize: 17)),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12.0),
+                                                child: TextFormField(
+                                                  onSaved: (value) {
                                                     print(value);
-                                                    setState(() {
-                                                      dropdownvalueCategory =
-                                                          value;
-                                                    });
+                                                    productDetails[
+                                                            "Making Charge"] =
+                                                        value;
                                                   },
-                                                );
-                                              }
-                                            })
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Center(
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        if (formsubmission()) {
-                                          await FirebaseFunctions().addOrnament(
-                                              productDetails, context);
-                                          print(productDetails);
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 66,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width, //set your height here
-                                        //set your width here
-                                        decoration: BoxDecoration(
-                                            color: Color(0xffF5BA4C),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8))),
-                                        child: Center(
-                                            child: Text(
-                                          'Confirm',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 21.5,
-                                            fontWeight: FontWeight.w700,
+                                                  validator: (value) {
+                                                    if (value == null) {
+                                                      return "Please don't leave this field empty";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          fillColor: Color(
+                                                              0xffDCDCDC),
+                                                          filled: true,
+                                                          hintText:
+                                                              'Making Charge',
+                                                          border:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none,
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          errorBorder:
+                                                              InputBorder.none,
+                                                          hintStyle: TextStyle(
+                                                              color: Color(
+                                                                  0xff767676),
+                                                              fontSize: 17)),
+                                                ),
+                                              ),
+                                              DropdownButton(
+                                                  value: dropdownvalue,
+                                                  items: items,
+                                                  hint: Text("Select metal"),
+                                                  onChanged: (value) {
+                                                    if (value != null) {
+                                                      setState(
+                                                        () {
+                                                          print(value);
+                                                          setState(() {
+                                                            dropdownvalue =
+                                                                value;
+                                                          });
+                                                        },
+                                                      );
+                                                    }
+                                                  }),
+                                              DropdownButton(
+                                                  value: dropdownvalueCategory,
+                                                  items: categoriesList,
+                                                  hint: Text("Select metal"),
+                                                  onChanged: (value) {
+                                                    if (value != null) {
+                                                      setState(
+                                                        () {
+                                                          print(value);
+                                                          setState(() {
+                                                            dropdownvalueCategory =
+                                                                value;
+                                                          });
+                                                        },
+                                                      );
+                                                    }
+                                                  })
+                                            ],
                                           ),
-                                        )),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 10.0),
+                                        child: Center(
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              if (formsubmission()) {
+                                                await FirebaseFunctions()
+                                                    .addOrnament(productDetails,
+                                                        context);
+                                                print(productDetails);
+                                              }
+                                            },
+                                            child: Container(
+                                              height: 66,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width, //set your height here
+                                              //set your width here
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffF5BA4C),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8))),
+                                              child: Center(
+                                                  child: Text(
+                                                'Confirm',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 21.5,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              )),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                    : Icon(Icons.add_alert),
               ],
             ),
           ),

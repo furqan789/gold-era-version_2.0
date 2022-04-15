@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gold_price_predictor/Cart.dart';
+import 'package:gold_price_predictor/GetStarted.dart';
 import 'package:gold_price_predictor/GoldInfo.dart';
 import 'package:gold_price_predictor/signup.dart';
 //import 'package:gold_price_predictor/categories.dart';

@@ -11,7 +11,6 @@ import 'GoldpriceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-
 import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
@@ -104,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
                 )),
             child: Container(
                 width: double.infinity,
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,49 +111,53 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height*0.5,
+                          height: MediaQuery.of(context).size.height * 0.5,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage('assets/images/sign_up_bg.png'),
-                                  fit: BoxFit.cover
-                              )
-                          ),
+                                  image: AssetImage(
+                                      'assets/images/sign_up_bg.png'),
+                                  fit: BoxFit.cover)),
                         ),
                         SingleChildScrollView(
                           child: Container(
-                            margin: EdgeInsets.only(top:300),
-                            height: MediaQuery.of(context).size.height*0.6,
+                            margin: EdgeInsets.only(top: 300),
+                            height: MediaQuery.of(context).size.height * 0.6,
                             decoration: BoxDecoration(
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                       color: Colors.black12,
                                       blurRadius: 5.0,
-                                      offset: Offset(0, -7.0)
-                                  )
+                                      offset: Offset(0, -7.0))
                                 ],
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
-                                color: Colors.white
-                            ),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                                color: Colors.white),
                             child: Form(
                               key: _formkey,
                               child: Padding(
-                                padding: const EdgeInsets.only(top:50.0,left:40,right: 40),
-
+                                padding: const EdgeInsets.only(
+                                    top: 50.0, left: 40, right: 40),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text('Welcome Back',
-//                                      style: GoogleFonts.raleway(fontSize: 24,fontWeight: FontWeight.w700,color:Color(0xff505050)),
+                                    Text(
+                                      'Welcome Back',
+//                                      style: GoogleFonts.raleway(
+//                                          fontSize: 24,
+//                                          fontWeight: FontWeight.w700,
+//                                          color: Color(0xff505050)),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only( bottom: 5,top: 25),
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5, top: 25),
                                       child: TextFormField(
                                         validator: (value) {
                                           if (value == null || value == "") {
                                             return "Please do not leave this field blank";
                                           } else if (!RegExp(
-                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                               .hasMatch(value)) {
                                             return "Please enter a valid email address";
                                           }
@@ -167,56 +169,65 @@ class _LoginPageState extends State<LoginPage> {
                                         decoration: const InputDecoration(
                                             border: UnderlineInputBorder(),
                                             hintText: 'Name',
-                                            hintStyle: TextStyle(color: Color(
-                                                0xffa59f9f),fontSize: 17)
-
-
-                                        ),
+                                            hintStyle: TextStyle(
+                                                color: Color(0xffa59f9f),
+                                                fontSize: 17)),
                                       ),
                                     ),
-
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 0, vertical: 5),
                                       child: TextFormField(
                                         validator: (value) {
                                           if (value == null || value == "") {
                                             return "Please don't leave this field empty";
                                           } else if (!RegExp(
-                                              r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
+                                                  r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
                                               .hasMatch(value)) {
                                             return "Please enter a valid password!";
                                           }
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          value != null ? _password = value : null;
+                                          value != null
+                                              ? _password = value
+                                              : null;
                                         },
                                         obscureText: _isObscure,
                                         enableSuggestions: false,
                                         autocorrect: false,
-
                                         decoration: InputDecoration(
                                             border: UnderlineInputBorder(),
                                             hintText: 'Password',
                                             suffixIcon: IconButton(
-                                                icon: Icon(
-                                                    _isObscure ? Icons.visibility : Icons.visibility_off),
+                                                icon: Icon(_isObscure
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off),
                                                 onPressed: () {
                                                   setState(() {
                                                     _isObscure = !_isObscure;
                                                   });
                                                 }),
-                                            hintStyle: TextStyle(color: Color(
-                                                0xffa59f9f),fontSize: 17)
-                                        ),
+                                            hintStyle: TextStyle(
+                                                color: Color(0xffa59f9f),
+                                                fontSize: 17)),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(top:8.0,bottom: 30),
-                                      child: Align(alignment:Alignment.centerRight,child: Text('Forgot Passcode?',style: TextStyle(color: Color(
-                                          0xff505050).withOpacity(0.8),letterSpacing: 1,decoration: TextDecoration.underline),)),
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0, bottom: 30),
+                                      child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            'Forgot Passcode?',
+                                            style: TextStyle(
+                                                color: Color(0xff505050)
+                                                    .withOpacity(0.8),
+                                                letterSpacing: 1,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          )),
                                     ),
-
                                     Center(
                                       child: InkWell(
                                         onTap: () async {
@@ -227,38 +238,18 @@ class _LoginPageState extends State<LoginPage> {
                                               });
                                               var auth = await _firebaseAuth
                                                   .signInWithEmailAndPassword(
-                                                  email: _email,
-                                                  password: _password);
+                                                      email: _email,
+                                                      password: _password);
 
                                               if (auth != null) {
-                                                await GoldpriceModel()
-                                                    .getLatestPrices()
-                                                    .then((value) {
-                                                  Provider.of<GoldInfo>(context,
-                                                      listen: false)
-                                                      .getLatestData(value);
-                                                }).then((value) async {
-                                                  await GoldpriceModel()
-                                                      .getGoldPriceData()
-                                                      .then((value) {
-                                                    Provider.of<GoldInfo>(context,
-                                                        listen: false)
-                                                        .getGoldData(value);
-                                                  });
-                                                }).then((value) async {
-                                                  await GoldpriceModel()
-                                                      .getLatestPricesSilver().then((value) { Provider.of<GoldInfo>(context,listen: false).getLatestDataSilver(value);
-                                                  print(Provider.of<GoldInfo>(context,listen: false).setLatestDataSilver());
-                                                      });
-                                                });
-
                                                 setState(() {
                                                   isLoaded = false;
                                                 });
 
-                                                Navigator.pushNamedAndRemoveUntil(
-                                                    context,
-                                                    'Bottom',
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        'Bottom',
                                                         (route) => false);
                                               }
                                             } catch (e) {
@@ -271,58 +262,72 @@ class _LoginPageState extends State<LoginPage> {
                                                   "Some error occurred while signing in. Please  check your email and password and try again",
                                                   "Ok", () {
                                                 Navigator.of(context,
-                                                    rootNavigator: true)
+                                                        rootNavigator: true)
                                                     .pop();
                                               });
                                             }
                                           }
                                         },
-
                                         child: Container(
-                                          height:50,
-                                          width:MediaQuery.of(context).size.width,//set your height here
+                                          height: 50,
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width, //set your height here
                                           //set your width here
                                           decoration: BoxDecoration(
                                               color: Color(0xffF5BA4C),
-                                              borderRadius: BorderRadius.all(Radius.circular(8))
-
-                                          ),
-                                          child: Center(child: Text('Log in', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18.5,fontWeight: FontWeight.w600,
-                                          ),)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8))),
+                                          child: Center(
+                                              child: Text(
+                                            'Log in',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.5,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          )),
                                         ),
                                       ),
                                     ),
                                     Spacer(),
-
                                     Center(
                                       child: Column(
                                         children: [
-                                          Text('Already have an account ?',style: TextStyle(color: Color(0xff505050)),),SizedBox(height: 4,),
-                                          GestureDetector(onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => SignupPage()));
-                                          },child: Text('Register',style: TextStyle(color:Color(0xffF5BA4C),fontSize: 15,fontWeight: FontWeight.w600
-                                          ))),
+                                          Text(
+                                            'Already have an account ?',
+                                            style: TextStyle(
+                                                color: Color(0xff505050)),
+                                          ),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SignupPage()));
+                                              },
+                                              child: Text('Register',
+                                                  style: TextStyle(
+                                                      color: Color(0xffF5BA4C),
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600))),
                                         ],
                                       ),
                                     )
-
                                   ],
                                 ),
                               ),
                             ),
                           ),
                         )
-
-
-
-
                       ],
                     ),
-
-
                   ],
                 )),
           ),

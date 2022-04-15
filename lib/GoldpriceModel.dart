@@ -60,7 +60,8 @@ class GoldpriceModel {
     // the time stamp is in mm-dd-yyyy format
   }
 
-  Widget linearGraph(List<int> x, List<double> y, int n) {
+  Widget linearGraph(List<int> x, List<double> y, int n, double maxY,
+      Color graphColor, Color spotsColor) {
     List<FlSpot> spots = [];
     for (int i = 0; i < n; i++) {
       spots.add(FlSpot(x[i].toDouble(), y[i]));
@@ -72,7 +73,7 @@ class GoldpriceModel {
         minX: 0,
         maxX: 13450,
         minY: 0,
-        maxY: 2500,
+        maxY: maxY,
         gridData: FlGridData(show: false, drawVerticalLine: true),
         titlesData: FlTitlesData(
             show: false, bottomTitles: SideTitles(showTitles: false)),
@@ -80,11 +81,11 @@ class GoldpriceModel {
           LineChartBarData(
             isCurved: true,
             spots: spots,
-            colors: [Color(0xfff8ce7f)],
+            colors: [spotsColor],
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(
                 show: true,
-                colors: [Color(0xfff5ba4c), Colors.white],
+                colors: [graphColor, Colors.white],
                 gradientColorStops: [0, 1],
                 gradientFrom: Offset.fromDirection(-1),
                 gradientTo: Offset.fromDirection(1.5)),

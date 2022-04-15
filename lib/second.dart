@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'GoldpriceModel.dart';
 import 'GoldInfo.dart';
 import 'package:provider/provider.dart';
+import 'package:slidable_button/slidable_button.dart';
 
 class SecondPage extends StatefulWidget {
   @override
@@ -11,17 +12,19 @@ class SecondPage extends StatefulWidget {
 }
 
 DateTime selectedDate;
-String estimatedPrice;
+String estimatedPrice, estimatedPriceSilver;
+bool isSilver = false;
 
+//j
 class _SecondPageState extends State<SecondPage> {
   Map<String, dynamic> latest_prices_Silver;
   GoldpriceModel _model;
   @override
   Widget build(BuildContext context) {
-    List<dynamic> goldData = Provider.of<GoldInfo>(context).setGoldData();
-    List<dynamic> silverData = Provider.of<GoldInfo>(context).setSilverData();
     Map<String, dynamic> latestData =
         Provider.of<GoldInfo>(context).setLatestData();
+    List<dynamic> goldData = Provider.of<GoldInfo>(context).setGoldData();
+    List<dynamic> silverData = Provider.of<GoldInfo>(context).setSilverData();
 
     final double conversion_factor = 28.35;
     latest_prices_Silver = Provider.of<GoldInfo>(context).setLatestDataSilver();
@@ -51,17 +54,76 @@ class _SecondPageState extends State<SecondPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Container(
-//                    child: GoldpriceModel().linearGraph(
-//                        silverData[0], silverData[1], silverData[0].length),
-                    child: GoldpriceModel().linearGraph(
-                        goldData[0], goldData[1], goldData[0].length),
-                    width: double.infinity,
-                    height: 240,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                  child: SlidableButton(
+                    height: 44,
+                    width: MediaQuery.of(context).size.width / 1.75,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    buttonWidth: MediaQuery.of(context).size.width,
+                    color: Color(0xff505050).withOpacity(0.05),
+                    buttonColor: Colors.black.withOpacity(0.10),
+                    border:
+                        Border.all(color: Color(0xff505050).withOpacity(0.2)),
+                    dismissible: false,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Gold',
+                          style: TextStyle(
+                              color: Color(0xff505050),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16),
+                        ),
+                        Text('Silver',
+                            style: TextStyle(
+                                color: Color(0xff505050),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16)),
+                      ],
+                    ),
+                    onChanged: (position) {
+                      setState(() {
+                        if (position == SlidableButtonPosition.right) {
+                          print('Button is on the right');
+                          print(silverData[1]);
+                          setState(() {
+                            isSilver = true;
+                          });
+                        } else {
+                          print(goldData[1]);
+                          isSilver = false;
+
+                          print('Button is on the left');
+                        }
+                      });
+                    },
                   ),
                 ),
+                isSilver
+                    ? Container(
+                        child: GoldpriceModel().linearGraph(
+                            silverData[0],
+                            silverData[1],
+                            silverData[0].length,
+                            60,
+                            Color(0xFFBEBBBB),
+                            Color(0xFF848484)),
+                        width: double.infinity,
+                        height: 200,
+                      )
+                    : Container(
+                        child: GoldpriceModel().linearGraph(
+                            goldData[0],
+                            goldData[1],
+                            goldData[0].length,
+                            2700,
+                            Color(0xFFF5BA4C),
+                            Color(0xFFDF9100)),
+                        width: double.infinity,
+                        height: 200,
+                      ),
                 Container(
                   padding: EdgeInsets.only(top: 68, bottom: 25),
                   child: Row(
@@ -217,7 +279,7 @@ class _SecondPageState extends State<SecondPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        '\u{20B9} - - / -- gm',
+                                        '\u{20B9} ${estimatedPriceSilver} gm',
                                         style: TextStyle(
                                           fontSize: 19,
                                           fontWeight: FontWeight.w600,
@@ -243,6 +305,20 @@ class _SecondPageState extends State<SecondPage> {
                   child: InkWell(
                     onTap: () async {
                       var value = await showDatePicker(
+                          builder: (BuildContext context, Widget child) {
+                            return Theme(
+                              data: ThemeData.dark().copyWith(
+                                colorScheme: ColorScheme.dark(
+                                  primary: Color(0xffFBD58E),
+                                  onPrimary: Colors.white,
+                                  surface: Color(0xffFBD58E),
+                                  onSurface: Color(0xff505050),
+                                ),
+                                dialogBackgroundColor: Colors.white,
+                              ),
+                              child: child,
+                            );
+                          },
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime.now(),
@@ -253,11 +329,18 @@ class _SecondPageState extends State<SecondPage> {
                           selectedDate = value;
                           estimatedPrice = GoldpriceModel().linearRegression(
                               goldData[1], goldData[0], selectedDate);
+                          estimatedPriceSilver = GoldpriceModel()
+                              .linearRegression(
+                                  silverData[1], silverData[0], selectedDate);
                         }
+
                         Provider.of<GoldInfo>(context, listen: false)
                             .getEstimatedPrice(double.parse(estimatedPrice));
                         Provider.of<GoldInfo>(context, listen: false)
                             .getSelectedDate(selectedDate);
+                        Provider.of<GoldInfo>(context, listen: false)
+                            .getEstimatedPriceSilver(
+                                double.parse(estimatedPriceSilver));
                       });
                     },
                     child: Container(
@@ -275,13 +358,7 @@ class _SecondPageState extends State<SecondPage> {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 21.5,
-                            fontWeight: FontWeight.w600,
-                            shadows: [
-                              Shadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  offset: const Offset(2.85, 2.85),
-                                  blurRadius: 3.5),
-                            ]),
+                            fontWeight: FontWeight.w600),
                       )),
                     ),
                   ),

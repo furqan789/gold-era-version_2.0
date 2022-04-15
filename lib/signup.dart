@@ -318,7 +318,7 @@ class _SignupPageState extends State<SignupPage> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        "Don't have an account ?",
+                                        "Already have an account?",
                                         style:
                                             TextStyle(color: Color(0xff505050)),
                                       ),
