@@ -121,7 +121,7 @@ class _SignupPageState extends State<SignupPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Get Started',
+                                  'Get Started',//k
                                   style: TextStyle(
                                       fontSize: 27,
                                       fontWeight: FontWeight.w700,
