@@ -54,7 +54,7 @@ class _RingPredictState extends State<RingPredict> {
                         height: 100,
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xffF8F8F8),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +126,7 @@ class _RingPredictState extends State<RingPredict> {
 
                     child: Container(
 
-                      height:35, //set your height here
+                      height:30, //set your height here
                       //set your width here
                       decoration: BoxDecoration(
                           color: Color(0xffF5BA4C),

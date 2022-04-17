@@ -42,7 +42,7 @@ class _FirstPageState extends State<FirstPage> {
   List<File> images;
   String dropdownvalue;
   String dropdownvalueCategory;
-  final adminEmail = "atharvtmnh823@gmail.com";
+  final adminEmail = "furqanrafee7@gmail.com";
   final double conversion_factor = 28.35;
   final url =
       "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
@@ -191,12 +191,11 @@ class _FirstPageState extends State<FirstPage> {
                             builder: (BuildContext context) {
                               return SingleChildScrollView(
                                 child: Container(
-                                  padding: EdgeInsets.only(top: 5),
-                                  height:
-                                      MediaQuery.of(context).size.height / 1.5,
+
                                   color: Colors.white,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Container(
@@ -205,6 +204,8 @@ class _FirstPageState extends State<FirstPage> {
                                         child: Form(
                                           key: _formKey,
                                           child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
                                             children: [
                                               Container(
                                                 height: 2,
@@ -316,7 +317,7 @@ class _FirstPageState extends State<FirstPage> {
                                                         Color(0xffDCDCDC),
                                                     filled: true,
                                                     hintText:
-                                                        'Weight Of The Metal',
+                                                        'Weight Of The Metal (Grams)',
                                                     border: InputBorder.none,
                                                     focusedBorder:
                                                         InputBorder.none,
@@ -354,7 +355,7 @@ class _FirstPageState extends State<FirstPage> {
                                                               0xffDCDCDC),
                                                           filled: true,
                                                           hintText:
-                                                              'Making Charge',
+                                                              'Making Charge (Rs)',
                                                           border:
                                                               InputBorder.none,
                                                           focusedBorder:
@@ -389,6 +390,7 @@ class _FirstPageState extends State<FirstPage> {
                                                     }
                                                   }),
                                               DropdownButton(
+                                                focusColor: Color(0xff767676),
                                                   value: dropdownvalueCategory,
                                                   items: categoriesList,
                                                   hint: Text("Select metal"),
@@ -404,62 +406,62 @@ class _FirstPageState extends State<FirstPage> {
                                                         },
                                                       );
                                                     }
-                                                  })
+                                                  }),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Color(0xffDCDCDC),
+                                                ),
+                                                child: Text("Pick Image",style: TextStyle(color: Color(0xff767676)),),
+                                                onPressed: () async {
+                                                  await get_Image("Destiny");
+                                                },
+                                              ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                      ElevatedButton(
-                                        child: Text("Pick Images"),
-                                        onPressed: () async {
-                                          await get_Image("Destiny");
-                                        },
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 10.0),
-                                        child: Center(
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              if (formsubmission()) {
-                                                productDetails["Metal"] =
-                                                    dropdownvalue;
-                                                productDetails["Category"] =
-                                                    dropdownvalueCategory;
+
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            if (formsubmission()) {
+                                              productDetails["Metal"] =
+                                                  dropdownvalue;
+                                              productDetails["Category"] =
+                                                  dropdownvalueCategory;
+                                              await FirebaseFunctions()
+                                                  .addImages(images, context,
+                                                      productDetails["Name"])
+                                                  .then((value) async {
                                                 await FirebaseFunctions()
-                                                    .addImages(images, context,
-                                                        productDetails["Name"])
-                                                    .then((value) async {
-                                                  await FirebaseFunctions()
-                                                      .addOrnament(
-                                                          productDetails,
-                                                          context);
-                                                  print(productDetails);
-                                                });
-                                              }
-                                            },
-                                            child: Container(
-                                              height: 25,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width, //set your height here
-                                              //set your width here
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xffF5BA4C),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8))),
-                                              child: Center(
-                                                  child: Text(
-                                                'Confirm',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 21.5,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              )),
-                                            ),
+                                                    .addOrnament(
+                                                        productDetails,
+                                                        context);
+                                                print(productDetails);
+                                              });
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 55,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width, //set your height here
+                                            //set your width here
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffF5BA4C),
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(8))),
+                                            child: Center(
+                                                child: Text(
+                                              'Confirm',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 21.5,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )),
                                           ),
                                         ),
                                       ),

@@ -20,7 +20,7 @@ class _CartState extends State<Cart> {
     cart.forEach((element) {
       total += ((price * double.parse(element["Weight"])) +
           (double.parse(element["Making Charge"]) *
-              double.parse(element["Weight"])));
+              double.parse(element["Weight"]))).toInt();
     });
   }
 
@@ -64,12 +64,25 @@ class _CartState extends State<Cart> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(
-            'Shopping Cart',
-            style: TextStyle(
-                color: Color(0xff505050),
-                fontWeight: FontWeight.bold,
-                fontSize: 23),
+          title: Row(
+            children: [
+              Text(
+                'Shopping Cart',
+                style: TextStyle(
+                    color: Color(0xff505050),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+                  onPressed: () {
+                    Provider.of<GoldInfo>(context, listen: false)
+                        .shoppingCart
+                        .clear();
+                  },
+                  child: Text('Clear Cart')),
+            ],
           ),
           elevation: 0,
           centerTitle: true,
@@ -130,6 +143,7 @@ class _CartState extends State<Cart> {
                                           color: Color(0xfff3a922),
                                           letterSpacing: 1),
                                       children: <TextSpan>[
+
                                         TextSpan(
                                             text: e['Weight'],
                                             style: TextStyle(
@@ -141,7 +155,7 @@ class _CartState extends State<Cart> {
                                 ],
                               ),
                               Spacer(),
-                              Text(
+                              Text('₹ '+
                                 (price * double.parse(e["Weight"]) +
                                         double.parse(e["Making Charge"]) *
                                             double.parse(e["Weight"]))
@@ -168,7 +182,7 @@ class _CartState extends State<Cart> {
               decoration: BoxDecoration(
                   color: Color(0xff505050),
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0))),
+                      BorderRadius.vertical(top: Radius.circular(10.0))),
               child: Column(
                 children: [
                   Padding(
@@ -184,8 +198,8 @@ class _CartState extends State<Cart> {
                                     ),
                           ),
                         ),
-                        Text(
-                          '₹ $total',
+                        Text('₹ '+
+                          (total).toStringAsPrecision(8),
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white.withOpacity(0.75),
                               ),
@@ -207,7 +221,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         Text(
-                          '₹ ${total * gst}',
+                          '₹ ${total * gst}'.substring(0,10),
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white.withOpacity(0.75),
                               ),
@@ -237,7 +251,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         Text(
-                          '₹ ${total + total * gst}',
+                          '₹ ${total + total * gst}'.substring(0,11),
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white,
                               ),
@@ -250,11 +264,12 @@ class _CartState extends State<Cart> {
                       await openwhatsapp();
                     },
                     child: Container(
-                      height: 53, //set your height here
-                      width: double.maxFinite, //set your width here
+                      height: 50,
+                      margin: EdgeInsets.only(top:3.5),//set your height here
+                      width: MediaQuery.of(context).size.width, //set your width here
                       decoration: BoxDecoration(
                           color: Color(0xffF5BA4C),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                          borderRadius: BorderRadius.only(topLeft:Radius.circular(5),topRight:Radius.circular(5))),
                       child: Center(
                           child: Text(
                         'Checkout',

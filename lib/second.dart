@@ -109,7 +109,7 @@ class _SecondPageState extends State<SecondPage> {
                             silverData[0].length,
                             60,
                             Color(0xFFBEBBBB),
-                            Color(0xFF848484)),
+                            Color(0xffBEBBBB)),
                         width: double.infinity,
                         height: 200,
                       )
@@ -120,7 +120,7 @@ class _SecondPageState extends State<SecondPage> {
                             goldData[0].length,
                             2700,
                             Color(0xFFF5BA4C),
-                            Color(0xFFDF9100)),
+                            Color(0xffF5BA4C)),
                         width: double.infinity,
                         height: 200,
                       ),
@@ -250,20 +250,17 @@ class _SecondPageState extends State<SecondPage> {
                                   )),
                             ),
                             latest_prices_Silver != null
-                                ? Padding(
-                                    padding: EdgeInsets.all(4),
-                                    child: Text(
-                                      "\u{20b9}" +
-                                          (double.parse(latest_prices_Silver[
-                                                      "price"]) /
-                                                  conversion_factor)
-                                              .toStringAsPrecision(6),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
+                                ? Text(
+                                  "\u{20b9}" +
+                                      (double.parse(latest_prices_Silver[
+                                                  "price"]) /
+                                              conversion_factor)
+                                          .toStringAsPrecision(5),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w600),
+                                )
                                 : Text('uu'),
                             Padding(
                               padding:

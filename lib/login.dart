@@ -144,10 +144,10 @@ class _LoginPageState extends State<LoginPage> {
                                   children: [
                                     Text(
                                       'Welcome Back',
-//                                      style: GoogleFonts.raleway(
-//                                          fontSize: 24,
-//                                          fontWeight: FontWeight.w700,
-//                                          color: Color(0xff505050)),
+                                     style: TextStyle(
+                                         fontSize: 24,
+                                         fontWeight: FontWeight.w700,
+                                         color: Color(0xff505050)),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
