@@ -40,8 +40,8 @@ class _FirstPageState extends State<FirstPage> {
   List<dynamic> goldPriceData;
   DateTime today;
   List<File> images;
-  String dropdownvalue = 'Gold';
-  String dropdownvalueCategory = 'Ring';
+  String dropdownvalue;
+  String dropdownvalueCategory;
   final adminEmail = "atharvtmnh823@gmail.com";
   final double conversion_factor = 28.35;
   final url =
@@ -53,9 +53,6 @@ class _FirstPageState extends State<FirstPage> {
     _image = File(image.path);
     if (_image != null) {
       images == null ? images = [_image] : images.add(_image);
-      await FirebaseFunctions()
-          .addImages(images, context, productName)
-          .then((value) => print("Success!"));
     }
   }
 
@@ -86,7 +83,10 @@ class _FirstPageState extends State<FirstPage> {
     Map<String, dynamic> productDetails = {
       "Name": "default",
       "Weight": 0,
-      "Making Charge": 0
+      "Making Charge": 0,
+      "Description": "default",
+      "Metal": "",
+      "Category": ""
     };
     String designation = FirebaseAuth.instance.currentUser.email == adminEmail
         ? "admin"
@@ -221,16 +221,10 @@ class _FirstPageState extends State<FirstPage> {
                                                       Navigator.pop(context),
                                                 ),
                                               ),
-                                              ElevatedButton(
-                                                child: Text("Pick Images"),
-                                                onPressed: () async {
-                                                  await get_Image("Destiny");
-                                                },
-                                              ),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        vertical: 12.0),
+                                                        vertical: 2.0),
                                                 child: TextFormField(
                                                   onSaved: (value) {
                                                     print(value);
@@ -262,6 +256,45 @@ class _FirstPageState extends State<FirstPage> {
                                                           color:
                                                               Color(0xff767676),
                                                           fontSize: 17)),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12.0),
+                                                child: TextFormField(
+                                                  onSaved: (value) {
+                                                    print(value);
+                                                    productDetails[
+                                                        "Description"] = value;
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null) {
+                                                      return "Please don't leave this field empty";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          fillColor: Color(
+                                                              0xffDCDCDC),
+                                                          filled: true,
+                                                          hintText:
+                                                              'Description',
+                                                          border:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none,
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          errorBorder:
+                                                              InputBorder.none,
+                                                          hintStyle: TextStyle(
+                                                              color: Color(
+                                                                  0xff767676),
+                                                              fontSize: 17)),
                                                 ),
                                               ),
                                               TextFormField(
@@ -349,6 +382,8 @@ class _FirstPageState extends State<FirstPage> {
                                                             dropdownvalue =
                                                                 value;
                                                           });
+                                                          productDetails[
+                                                              "Metal"] = value;
                                                         },
                                                       );
                                                     }
@@ -374,6 +409,12 @@ class _FirstPageState extends State<FirstPage> {
                                           ),
                                         ),
                                       ),
+                                      ElevatedButton(
+                                        child: Text("Pick Images"),
+                                        onPressed: () async {
+                                          await get_Image("Destiny");
+                                        },
+                                      ),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(top: 10.0),
@@ -381,14 +422,24 @@ class _FirstPageState extends State<FirstPage> {
                                           child: GestureDetector(
                                             onTap: () async {
                                               if (formsubmission()) {
+                                                productDetails["Metal"] =
+                                                    dropdownvalue;
+                                                productDetails["Category"] =
+                                                    dropdownvalueCategory;
                                                 await FirebaseFunctions()
-                                                    .addOrnament(productDetails,
-                                                        context);
-                                                print(productDetails);
+                                                    .addImages(images, context,
+                                                        productDetails["Name"])
+                                                    .then((value) async {
+                                                  await FirebaseFunctions()
+                                                      .addOrnament(
+                                                          productDetails,
+                                                          context);
+                                                  print(productDetails);
+                                                });
                                               }
                                             },
                                             child: Container(
-                                              height: 66,
+                                              height: 25,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width, //set your height here

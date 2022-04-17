@@ -16,12 +16,20 @@ class _CartState extends State<Cart> {
   double total = 0;
   double gst = 1.8 / 100;
 
+  void totalPrice(List cart, num price) {
+    cart.forEach((element) {
+      total += ((price * double.parse(element["Weight"])) +
+          (double.parse(element["Making Charge"]) *
+              double.parse(element["Weight"])));
+    });
+  }
+
   openwhatsapp() async {
     var whatsapp = "+918451976510";
-    String text = "hello";
+    String text = "${total + total * gst}";
     var whatsappURl_android =
         "whatsapp://send?phone=" + whatsapp + "&text= $text";
-    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("$text")}";
     if (Platform.isIOS) {
       // for iOS phone only
       if (await canLaunch(whatappURL_ios)) {
@@ -44,7 +52,11 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> cart =
-        Provider.of<GoldInfo>(context).shoppingCart;
+        Provider.of<GoldInfo>(context, listen: false).shoppingCart;
+    var priceData =
+        Provider.of<GoldInfo>(context, listen: false).setLatestData();
+    num price = double.parse(priceData["price"].toString()) / 28.35;
+    total == 0 ? totalPrice(cart, price) : null;
     return Container(
       decoration: BoxDecoration(
         color: Color(0xffF8F8F8),
@@ -67,78 +79,87 @@ class _CartState extends State<Cart> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  height: 1.5,
-                  color: Color(0xff505050).withOpacity(0.3),
-                ),
-                Container(
-                  margin: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 110,
-                        height: 105,
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xffEBEBEB),
+              width: double.infinity,
+              child: Column(
+                children: <Widget>[
+                  ...cart.map(
+                    (e) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          height: 1.5,
+                          color: Color(0xff505050).withOpacity(0.3),
                         ),
-                        child: Positioned(
-                          child: Image.asset('assets/images/ringgs.png',
-                              scale: 3.0),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Rings',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff505050)),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: 'Gold',
-                              style: TextStyle(
-                                  color: Color(0xfff3a922), letterSpacing: 1),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: ' | 7 gram',
+                        Container(
+                          margin: EdgeInsets.all(20),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 110,
+                                height: 105,
+                                padding: EdgeInsets.all(15),
+                                margin: EdgeInsets.only(right: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color(0xffEBEBEB),
+                                ),
+                                child: Positioned(
+                                  child: Image.asset('assets/images/ringgs.png',
+                                      scale: 3.0),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    e["Name"],
                                     style: TextStyle(
-                                      color: Color(0xff505050),
-                                    )),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Spacer(),
-                      Text(
-                        '₹ 5439.0',
-                        style: TextStyle(color: Color(0xff505050)),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 1.5,
-                  color: Color(0xff505050).withOpacity(0.3),
-                ),
-              ],
-            ),
-          ),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xff505050)),
+                                  ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: e['Metal'],
+                                      style: TextStyle(
+                                          color: Color(0xfff3a922),
+                                          letterSpacing: 1),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: e['Weight'],
+                                            style: TextStyle(
+                                              color: Color(0xff505050),
+                                            )),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              Text(
+                                (price * double.parse(e["Weight"]) +
+                                        double.parse(e["Making Charge"]) *
+                                            double.parse(e["Weight"]))
+                                    .toStringAsPrecision(8),
+                                style: TextStyle(color: Color(0xff505050)),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 1.5,
+                          color: Color(0xff505050).withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              )),
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
@@ -164,7 +185,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         Text(
-                          '₹ 5718',
+                          '₹ $total',
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white.withOpacity(0.75),
                               ),
@@ -186,7 +207,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         Text(
-                          '₹ 75',
+                          '₹ ${total * gst}',
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white.withOpacity(0.75),
                               ),
@@ -216,7 +237,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         Text(
-                          '₹ 5793',
+                          '₹ ${total + total * gst}',
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white,
                               ),
