@@ -5,17 +5,17 @@ import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
 import 'RingPredict.dart';
 
-class Rings extends StatefulWidget {
+class Chains extends StatefulWidget {
   @override
-  _RingsState createState() => _RingsState();
+  _ChainsState createState() => _ChainsState();
 }
 
-class _RingsState extends State<Rings> {
+class _ChainsState extends State<Chains> {
   @override
   Widget build(BuildContext context) {
-    var rings;
-    rings = Provider.of<GoldInfo>(context,listen: false).ring;
-    print(rings);
+    var chains;
+    chains = Provider.of<GoldInfo>(context,listen: false).chain;
+    print(chains);
     var priceData = Provider.of<GoldInfo>(context,listen: false).setLatestData();
     num price = double.parse(priceData["price"].toString()) / 28.35;
     print(price);
@@ -27,7 +27,7 @@ class _RingsState extends State<Rings> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            'Rings',
+            'Chains',
             style: TextStyle(
                 color: Color(0xff505050),
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class _RingsState extends State<Rings> {
             color: Colors.black,
           ),
         ),
-        body: GridView(
+        body: chains!=null ? GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisExtent:260 ,
@@ -52,12 +52,11 @@ class _RingsState extends State<Rings> {
 
 
           children: [
-            ...rings.map(
-              (e) => Expanded(
+            ...chains.map(
+                  (e) => Expanded(
                 child: GestureDetector(
                   onTap: (){
                     Provider.of<GoldInfo>(context, listen: false).ornament=e;
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -66,9 +65,9 @@ class _RingsState extends State<Rings> {
                   child: Container(
                     decoration: BoxDecoration(
                       border:
-                          Border.all(color: Colors.black12, width: 0.3),
+                      Border.all(color: Colors.black12, width: 0.3),
                       borderRadius:
-                          BorderRadius.all(Radius.circular(8)),
+                      BorderRadius.all(Radius.circular(8)),
                       boxShadow: [
                         BoxShadow(
                           color: Color(0xffC9C9C9),
@@ -114,10 +113,10 @@ class _RingsState extends State<Rings> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text('₹ '+
-                              (price * double.parse(e["Weight"]) +
-                                      double.parse(e["Making Charge"]) *
-                                          double.parse(e["Weight"]))
-                                  .toStringAsPrecision(8),
+                                (price * double.parse(e["Weight"]) +
+                                    double.parse(e["Making Charge"]) *
+                                        double.parse(e["Weight"]))
+                                    .toStringAsPrecision(8),
                               style: TextStyle(
                                   fontWeight: FontWeight.w700),
                             ),
@@ -126,10 +125,10 @@ class _RingsState extends State<Rings> {
                         GestureDetector(
                           onTap: () {
                             Provider.of<GoldInfo>(context,
-                                    listen: false)
+                                listen: false)
                                 .addItemInCart(e);
                             print(Provider.of<GoldInfo>(context,
-                                    listen: false)
+                                listen: false)
                                 .shoppingCart);
                           },
                           child: Container(
@@ -141,11 +140,11 @@ class _RingsState extends State<Rings> {
                                     Radius.circular(8))),
                             child: Center(
                                 child: Text(
-                              'Add to cart',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20),
-                            )),
+                                  'Add to cart',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                )),
                           ),
                         ),
                       ],
@@ -235,7 +234,7 @@ class _RingsState extends State<Rings> {
 //                        ),
 //                      ),
           ],
-        ),
+        ): Text('No data'),
       ),
     );
   }

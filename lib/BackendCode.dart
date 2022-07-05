@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gold_price_predictor/GoldInfo.dart';
+import 'package:provider/provider.dart';
 
 class FirebaseFunctions {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   DocumentReference documentReference;
-  List<String> _imageLink;
+  String _imageLink;
 
   Future<void> _showMyDialog(String title, String message, String buttonText,
       Function function, BuildContext context) async {
@@ -94,18 +96,18 @@ class FirebaseFunctions {
           if (temp == null) {
             throw Exception("Downloadable link not generated");
           } else {
-            _imageLink == null ? _imageLink = [temp] : _imageLink.add(temp);
-            _showMyDialog("Success", "Image has been successfully updated!",
+             _imageLink = temp;
+             Provider.of<GoldInfo>(context,listen: false).image = _imageLink;
+            await _showMyDialog("Success", "Image has been successfully updated!",
                 "Ok", () => Navigator.pop(context), context);
+
+            return true;
+
           }
         });
       });
-      if (_imageLink != null) {
-        if (await updateDetails(
-            'Product', {"Images": _imageLink}, productName, context))
-          return true;
-      }
-    } catch (e) {
+
+     }catch (e) {
       await _showMyDialog('Unable to display image', e.toString(), 'Ok',
           () => Navigator.pop(context), context);
       return false;

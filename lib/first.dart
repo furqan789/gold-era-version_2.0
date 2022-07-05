@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gold_price_predictor/second.dart';
+import 'AllBrands.dart';
 import 'BackendCode.dart';
 import 'GoldInfo.dart';
 import 'GoldpriceModel.dart';
@@ -42,13 +43,14 @@ class _FirstPageState extends State<FirstPage> {
   List<File> images;
   String dropdownvalue;
   String dropdownvalueCategory;
-  final adminEmail = "furqanrafee7@gmail.com";
+  final adminEmail = "atharvtmnh823@gmail.com";
   final double conversion_factor = 28.35;
   final url =
       "https://economictimes.indiatimes.com/commoditysummary/symbol-gold.cms";
+  var _image;
 
   Future get_Image(String productName) async {
-    var _image;
+
     final image = await ImagePicker().getImage(source: ImageSource.gallery);
     _image = File(image.path);
     if (_image != null) {
@@ -86,7 +88,8 @@ class _FirstPageState extends State<FirstPage> {
       "Making Charge": 0,
       "Description": "default",
       "Metal": "",
-      "Category": ""
+      "Category": "",
+      "Image" : ""
     };
     String designation = FirebaseAuth.instance.currentUser.email == adminEmail
         ? "admin"
@@ -128,6 +131,13 @@ class _FirstPageState extends State<FirstPage> {
           dropdownvalueCategory = "Necklace";
         },
       ),
+      DropdownMenuItem(
+        child: Text('Chains'),
+        value: "Chains",
+        onTap: () {
+          dropdownvalueCategory = "Chains";
+        },
+      ),
     ];
 
     bool formsubmission() {
@@ -156,7 +166,7 @@ class _FirstPageState extends State<FirstPage> {
                   ),
                 ),
                 Text(
-                  'Hello, Naithik',
+                  'Hello, ${_firebaseAuth.currentUser.email.substring(0,_firebaseAuth.currentUser.email.indexOf('@'))}',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -393,7 +403,7 @@ class _FirstPageState extends State<FirstPage> {
                                                 focusColor: Color(0xff767676),
                                                   value: dropdownvalueCategory,
                                                   items: categoriesList,
-                                                  hint: Text("Select metal"),
+                                                  hint: Text("Select category"),
                                                   onChanged: (value) {
                                                     if (value != null) {
                                                       setState(
@@ -407,38 +417,53 @@ class _FirstPageState extends State<FirstPage> {
                                                       );
                                                     }
                                                   }),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: Color(0xffDCDCDC),
-                                                ),
-                                                child: Text("Pick Image",style: TextStyle(color: Color(0xff767676)),),
-                                                onPressed: () async {
-                                                  await get_Image("Destiny");
-                                                },
-                                              ),
+                                              // ElevatedButton(
+                                              //   style: ElevatedButton.styleFrom(
+                                              //     primary: Color(0xffDCDCDC),
+                                              //   ),
+                                              //   child: Text("Pick Image",style: TextStyle(color: Color(0xff767676)),),
+                                              //   onPressed: () async {
+                                              //     await get_Image("Destiny");
+                                              //
+                                              //
+                                              //   },
+                                              // ),
                                             ],
                                           ),
                                         ),
                                       ),
+                                      _image!=null? Container(width: 100, height: 140,child: Image.file(_image)) : SizedBox(),
 
                                       Center(
                                         child: GestureDetector(
                                           onTap: () async {
-                                            if (formsubmission()) {
-                                              productDetails["Metal"] =
-                                                  dropdownvalue;
-                                              productDetails["Category"] =
-                                                  dropdownvalueCategory;
-                                              await FirebaseFunctions()
-                                                  .addImages(images, context,
-                                                      productDetails["Name"])
-                                                  .then((value) async {
+                                            try{
+                                              if (formsubmission()) {
+                                                productDetails["Metal"] =
+                                                    dropdownvalue;
+                                                productDetails["Category"] =
+                                                    dropdownvalueCategory;
+
+                                                 await FirebaseFunctions()
+                                                    .addImages(images, context,
+                                                    productDetails["Name"]).then((value)
+                                                 async{
+                                                 //      var i =Provider.of<GoldInfo>(context,listen: false).image;
+                                                 //      print('ooooooooooooooooooooooooooooo'+i.toString());
+                                                 // i!=null ? productDetails["Image"] = i : throw Exception('Image not loaded');
+                                                 //     print('******************************************');
+
                                                 await FirebaseFunctions()
                                                     .addOrnament(
-                                                        productDetails,
-                                                        context);
+                                                    productDetails,
+                                                    context).then((value) => print('###########################'));
                                                 print(productDetails);
-                                              });
+                                                 });
+
+
+                                              }
+                                            }catch(e){
+                                              print(e);
                                             }
                                           },
                                           child: Container(
@@ -638,7 +663,12 @@ class _FirstPageState extends State<FirstPage> {
                 ),
                 Spacer(),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AllBrands()));
+                    },
                     child: Text(
                       'See all',
                       style: TextStyle(
@@ -950,7 +980,7 @@ class _FirstPageState extends State<FirstPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset(
-                        'assets/images/coin.png',
+                        'assets/images/silver_coin.png',
                         height: 70,
                       ),
                       Text(
@@ -977,7 +1007,7 @@ class _FirstPageState extends State<FirstPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset(
-                        'assets/images/earings.png',
+                        'assets/images/silver_earings.png',
                         height: 70,
                       ),
                       Text(

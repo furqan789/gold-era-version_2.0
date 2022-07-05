@@ -18,7 +18,7 @@ class GoldpriceModel {
   final _path = "assets/gold_rate_history1.csv";
   final pureToStandard = 0.9258;
   final DateTime startDate = DateTime(2006, 1, 2);
-  final DateTime lastDate = DateTime(2020, 10, 10);
+  final DateTime lastDate = DateTime(2022, 01, 01);
 
   Future<List> getGoldPriceData() async {
     final myData = await rootBundle.loadString(_path);
@@ -70,8 +70,8 @@ class GoldpriceModel {
         borderData: FlBorderData(
           show: false,
         ),
-        minX: 0,
-        maxX: 13450,
+        minX: 2000,
+        maxX: 5500,
         minY: 0,
         maxY: maxY,
         gridData: FlGridData(show: false, drawVerticalLine: true),
@@ -132,6 +132,7 @@ class GoldpriceModel {
     int index = date.difference(startDate).inDays;
     double sumX = 0, sumY = 0, sumX2 = 0, sumXY = 0;
 
+
     for (i = 0; i < length; i++) {
       sumY += prices[i];
       sumX += serialNo[i];
@@ -143,7 +144,7 @@ class GoldpriceModel {
     double a = (sumY - b * sumX) / length;
 
     // a is the y intercept b is slope
-    return ((a + b * index) * 10).toStringAsPrecision(6);
+    return ((a + b * index)).toStringAsPrecision(6);
 
     //alternative algorithm
   }

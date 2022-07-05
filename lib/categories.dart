@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:flutter_gold/Rings.dart';
+import 'package:gold_price_predictor/Chains.dart';
 import 'package:provider/provider.dart';
 import 'GoldInfo.dart';
 import 'Rings.dart';
+
+
+
 
 class Categories extends StatefulWidget {
   @override
@@ -13,19 +16,31 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   FirebaseFirestore _firebaseFirestore;
-  List<dynamic> rings;
+  List<dynamic> rings,chains;
 
   List<dynamic> sortCategory(List<dynamic> ps) {
     print(ps.length);
-    ps.forEach((element) {
-      if (element["Category"].toString().toLowerCase() == "ring") {
-        rings != null ? rings.add(element) : rings = [element];
-      }
-    });
+    try{
+      ps.forEach((element) {
+        if (element["Category"].toString().toLowerCase() == "ring") {
+          rings != null ? rings.add(element) : rings = [element];
+        }
+        if (element["Category"].toString().toLowerCase() == "chains") {
+          chains != null ? chains.add(element) : chains = [element];
+        }
+      });
+    }catch(e){
+      print(e);
+    }
     Provider.of<GoldInfo>(context).ring == null
-        ? {print("Hiilooo"), Provider.of<GoldInfo>(context).getRings(rings)}
+        ? { Provider.of<GoldInfo>(context,listen: false).getRings(rings)}
         : null;
-    print("alllllllllllllllllllll" + rings.toString());
+    print( "akkkkkkkkkkkkkk" + rings.toString());
+
+    Provider.of<GoldInfo>(context).chain == null
+        ? { Provider.of<GoldInfo>(context,listen: false).getChains(chains)}
+        : null;
+    print("bblllllllllllllllllllll" + chains.toString());
   }
 
   @override
@@ -64,7 +79,7 @@ class _CategoriesState extends State<Categories> {
             }
           }
           sortCategory(products);
-          print(rings);
+
 
           return Container(
             decoration: BoxDecoration(
@@ -130,7 +145,7 @@ class _CategoriesState extends State<Categories> {
                                   height: 12,
                                 ),
                                 Text(
-                                  '2 items',
+                                  '${Provider.of<GoldInfo>(context).ring.length} items',
                                   style: TextStyle(
                                       color: Color(0xff505050).withOpacity(.6)),
                                 )
@@ -197,8 +212,19 @@ class _CategoriesState extends State<Categories> {
                               ],
                             ),
                             Spacer(),
-                            Icon(Icons.arrow_right,
-                                size: 35, color: Color(0xff2E3A59)),
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_right,
+                                size: 35,
+                                color: Color(0xff2E3A59),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Chains()));
+                              },
+                            ),
                           ],
                         ),
                       ),

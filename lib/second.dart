@@ -107,7 +107,7 @@ class _SecondPageState extends State<SecondPage> {
                             silverData[0],
                             silverData[1],
                             silverData[0].length,
-                            60,
+                            50,
                             Color(0xFFBEBBBB),
                             Color(0xffBEBBBB)),
                         width: double.infinity,
@@ -118,7 +118,7 @@ class _SecondPageState extends State<SecondPage> {
                             goldData[0],
                             goldData[1],
                             goldData[0].length,
-                            2700,
+                            6000,
                             Color(0xFFF5BA4C),
                             Color(0xffF5BA4C)),
                         width: double.infinity,
@@ -276,7 +276,7 @@ class _SecondPageState extends State<SecondPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        '\u{20B9} ${estimatedPriceSilver} gm',
+                                        '\u{20B9} ${(double.parse(estimatedPriceSilver)/14.5).toStringAsPrecision(4)} gm',
                                         style: TextStyle(
                                           fontSize: 19,
                                           fontWeight: FontWeight.w600,

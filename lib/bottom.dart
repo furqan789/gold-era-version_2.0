@@ -103,6 +103,16 @@ class _BottomState extends State<Bottom> {
               ),
             ),
           )
-        : Container(child: Text("Hello, loading hai bhai.."));
+        : Scaffold(body: Center(child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.grey)),
+            SizedBox(height:15),
+            Text('Loading...',style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),)
+          ],
+        )));
   }
 }

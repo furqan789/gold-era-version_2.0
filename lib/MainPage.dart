@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> {
                     });
                   },
                   child: Container(
-                    height: 55,
+                    height: 50,
                     width: MediaQuery.of(context).size.width *
                         0.6, //set your height here
 //set your width here
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
                       Navigator.pushNamed(context, 'Login');
                     },
                     child: Container(
-                      height: 50,
+                      height: 45,
                       width: MediaQuery.of(context).size.width *
                           0.6, //set your height here
 //set your width here
@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                       Navigator.pushNamed(context, 'Sign Up');
                     },
                     child: Container(
-                      height: 50,
+                      height: 45,
                       width: MediaQuery.of(context)
                           .size
                           .width, //set your height here
@@ -115,7 +115,7 @@ class _MainPageState extends State<MainPage> {
                       Container(
                         margin: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height / 2.73),
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.59,
                         decoration: BoxDecoration(
                             boxShadow: <BoxShadow>[
                               BoxShadow(

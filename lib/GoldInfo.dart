@@ -10,7 +10,9 @@ class GoldInfo extends ChangeNotifier {
   DateTime selectedDate;
   List<Map<String, dynamic>> shoppingCart;
   List<dynamic> silverPriceData;
-  List<dynamic> ring;
+  List<dynamic> ring,chain;
+  var image;
+  Map<String, dynamic> ornament;
 
   void getEstimatedPrice(double kimat) {
     estimatedPrice = kimat;
@@ -18,6 +20,9 @@ class GoldInfo extends ChangeNotifier {
 
   void getRings(List<dynamic> pd) {
     ring = pd;
+  }
+  void getChains(List<dynamic> pd) {
+    chain = pd;
   }
 
   void getEstimatedPriceSilver(double kimat) {

@@ -55,8 +55,9 @@ class _ScategoriesState extends State<Scategories> {
                           color: Color(0xffEBEBEB),
                         ),
                         child: Positioned(
-                          child: Image.asset('assets/images/ringgs.png',
-                              scale: 3.0),
+
+                          child: Image.asset('assets/images/silver_ring.png',
+                          ),
                         ),
                       ),
                       Column(
@@ -113,7 +114,7 @@ class _ScategoriesState extends State<Scategories> {
                           color: Color(0xffEBEBEB),
                         ),
                         child: Positioned(
-                          child: Image.asset('assets/images/chain.png',
+                          child: Image.asset('assets/images/silver_chain.png',
                               scale: 3.0),
                         ),
                       ),
@@ -162,7 +163,7 @@ class _ScategoriesState extends State<Scategories> {
                           color: Color(0xffEBEBEB),
                         ),
                         child: Positioned(
-                          child: Image.asset('assets/images/earings.png',
+                          child: Image.asset('assets/images/silver_earings.png',
                               scale: 3.0),
                         ),
                       ),
@@ -212,7 +213,7 @@ class _ScategoriesState extends State<Scategories> {
                         ),
                         child: Positioned(
                           child:
-                              Image.asset('assets/images/coin.png', scale: 3.0),
+                              Image.asset('assets/images/silver_coin.png', scale: 3.0),
                         ),
                       ),
                       Column(
@@ -261,7 +262,8 @@ class _ScategoriesState extends State<Scategories> {
                         ),
                         child: Positioned(
                           child: Image.asset(
-                            'assets/images/biscuitss.png',
+                            'assets/images/gold_bar.png',
+                            color: Colors.grey[400],
                             scale: 0.01,
                           ),
                         ),
